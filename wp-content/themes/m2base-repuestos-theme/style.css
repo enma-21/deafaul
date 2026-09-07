@@ -1,0 +1,530 @@
+/*
+Theme Name: M2Base Repuestos
+Theme URI: https://testproyect.m2base.com/
+Author: M2Base
+Description: Tema simple y moderno para catálogo de repuestos de vehículos, con buscador en portada y preparado para integrar WooCommerce (Stripe / transferencia bancaria) más adelante.
+Version: 1.0.0
+Requires at least: 6.0
+Requires PHP: 7.4
+License: GPLv2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: m2base-repuestos-theme
+*/
+
+:root {
+	--m2base-primario: #101828;
+	--m2base-primario-suave: #1d2b45;
+	--m2base-acento: #ff6a3d;
+	--m2base-fondo: #f7f8fa;
+	--m2base-superficie: #ffffff;
+	--m2base-borde: #e4e7ec;
+	--m2base-texto: #1d2433;
+	--m2base-texto-suave: #667085;
+	--m2base-radio: 12px;
+	--m2base-fuente: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+body {
+	margin: 0;
+	font-family: var(--m2base-fuente);
+	color: var(--m2base-texto);
+	background: var(--m2base-fondo);
+	line-height: 1.55;
+}
+
+img {
+	max-width: 100%;
+	height: auto;
+	display: block;
+}
+
+a {
+	color: inherit;
+}
+
+.screen-reader-text {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	clip: rect(1px, 1px, 1px, 1px);
+	white-space: nowrap;
+}
+
+.m2base-skip-link:focus {
+	position: fixed;
+	top: 8px;
+	left: 8px;
+	width: auto;
+	height: auto;
+	background: #fff;
+	padding: 10px 16px;
+	border-radius: 8px;
+	z-index: 1000;
+	clip: auto;
+}
+
+.m2base-contenedor {
+	max-width: 1160px;
+	margin: 0 auto;
+	padding: 0 20px;
+}
+
+.m2base-aviso {
+	background: #fff4e5;
+	color: #9a3412;
+	padding: 12px 20px;
+	text-align: center;
+	font-size: 0.9rem;
+}
+
+/* Header */
+.m2base-header__top {
+	background: var(--m2base-primario);
+	color: #cbd2e0;
+	font-size: 0.82rem;
+}
+
+.m2base-header__top-inner {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 12px;
+	padding: 8px 20px;
+	flex-wrap: wrap;
+}
+
+.m2base-header__contacto a,
+.m2base-header__redes a {
+	color: #cbd2e0;
+	text-decoration: none;
+	margin-right: 16px;
+}
+
+.m2base-header__contacto a:hover,
+.m2base-header__redes a:hover {
+	color: #fff;
+}
+
+.m2base-header__principal {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 16px 20px;
+	background: var(--m2base-superficie);
+	position: relative;
+}
+
+.m2base-header__logo-texto {
+	font-weight: 800;
+	font-size: 1.4rem;
+	text-decoration: none;
+	color: var(--m2base-primario);
+}
+
+.m2base-header__menu-toggle {
+	display: none;
+	flex-direction: column;
+	gap: 5px;
+	background: none;
+	border: none;
+	cursor: pointer;
+	padding: 6px;
+}
+
+.m2base-header__menu-toggle span {
+	width: 24px;
+	height: 2px;
+	background: var(--m2base-primario);
+	display: block;
+}
+
+.m2base-menu {
+	list-style: none;
+	display: flex;
+	gap: 28px;
+	margin: 0;
+	padding: 0;
+}
+
+.m2base-menu a {
+	text-decoration: none;
+	font-weight: 600;
+	font-size: 0.95rem;
+	color: var(--m2base-texto);
+}
+
+.m2base-menu a:hover {
+	color: var(--m2base-acento);
+}
+
+/* Hero */
+.m2base-hero {
+	background: linear-gradient(135deg, var(--m2base-primario), var(--m2base-primario-suave));
+	color: #fff;
+	padding: 56px 0 90px;
+}
+
+.m2base-hero__inner {
+	text-align: center;
+}
+
+.m2base-hero__etiqueta {
+	display: inline-block;
+	background: rgba(255, 106, 61, 0.16);
+	color: var(--m2base-acento);
+	padding: 6px 14px;
+	border-radius: 999px;
+	font-size: 0.8rem;
+	font-weight: 700;
+	margin-bottom: 16px;
+}
+
+.m2base-hero h1 {
+	font-size: clamp(1.8rem, 3.4vw, 2.6rem);
+	margin: 0 0 14px;
+}
+
+.m2base-hero p {
+	max-width: 620px;
+	margin: 0 auto;
+	color: #cbd2e0;
+	font-size: 1.05rem;
+}
+
+.m2base-seccion-buscador {
+	margin-top: -60px;
+	padding-bottom: 40px;
+}
+
+/* Secciones genéricas */
+.m2base-seccion-titulo {
+	font-size: 1.5rem;
+	margin: 0 0 20px;
+}
+
+.m2base-categorias,
+.m2base-destacados,
+.m2base-pagos {
+	padding: 48px 0;
+}
+
+.m2base-categorias__grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+	gap: 14px;
+}
+
+.m2base-categorias__item {
+	background: var(--m2base-superficie);
+	border: 1px solid var(--m2base-borde);
+	border-radius: var(--m2base-radio);
+	padding: 18px;
+	text-align: center;
+	font-weight: 700;
+	text-decoration: none;
+	color: var(--m2base-texto);
+	transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+.m2base-categorias__item:hover {
+	border-color: var(--m2base-acento);
+	color: var(--m2base-acento);
+}
+
+.m2base-pagos {
+	background: var(--m2base-superficie);
+	border-top: 1px solid var(--m2base-borde);
+}
+
+.m2base-pagos__chips {
+	display: flex;
+	gap: 16px;
+	flex-wrap: wrap;
+}
+
+.m2base-pagos__chip {
+	border: 1px dashed var(--m2base-borde);
+	border-radius: var(--m2base-radio);
+	padding: 14px 18px;
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	min-width: 200px;
+}
+
+.m2base-pagos__chip span {
+	font-size: 0.8rem;
+	color: var(--m2base-texto-suave);
+	text-transform: uppercase;
+	letter-spacing: 0.03em;
+}
+
+.m2base-pagos__nota {
+	margin-top: 18px;
+	color: var(--m2base-texto-suave);
+}
+
+/* Botones */
+.m2base-boton {
+	display: inline-block;
+	padding: 12px 22px;
+	border-radius: 8px;
+	font-weight: 700;
+	text-decoration: none;
+	transition: filter 0.15s ease;
+}
+
+.m2base-boton--principal {
+	background: var(--m2base-acento);
+	color: #fff;
+}
+
+.m2base-boton--secundario {
+	background: transparent;
+	color: var(--m2base-primario);
+	border: 1px solid var(--m2base-borde);
+}
+
+.m2base-boton:hover {
+	filter: brightness(1.06);
+}
+
+/* Archivo / listado */
+.m2base-archivo__cabecera {
+	padding: 40px 0 20px;
+}
+
+.m2base-archivo__grid {
+	margin: 28px 0;
+}
+
+.m2base-paginacion {
+	margin: 32px 0 60px;
+	display: flex;
+	gap: 8px;
+	justify-content: center;
+}
+
+.m2base-paginacion .page-numbers {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 38px;
+	height: 38px;
+	padding: 0 10px;
+	border-radius: 8px;
+	background: var(--m2base-superficie);
+	border: 1px solid var(--m2base-borde);
+	text-decoration: none;
+	color: var(--m2base-texto);
+}
+
+.m2base-paginacion .page-numbers.current {
+	background: var(--m2base-primario);
+	color: #fff;
+	border-color: var(--m2base-primario);
+}
+
+/* Ficha de producto */
+.m2base-producto {
+	padding: 30px 0 60px;
+}
+
+.m2base-migas {
+	font-size: 0.85rem;
+	color: var(--m2base-texto-suave);
+	margin-bottom: 20px;
+}
+
+.m2base-migas a {
+	color: var(--m2base-texto-suave);
+	text-decoration: none;
+}
+
+.m2base-migas span[aria-hidden] {
+	margin: 0 6px;
+}
+
+.m2base-producto__grid {
+	display: grid;
+	grid-template-columns: minmax(0, 420px) 1fr;
+	gap: 40px;
+}
+
+.m2base-producto__imagen {
+	background: var(--m2base-superficie);
+	border: 1px solid var(--m2base-borde);
+	border-radius: var(--m2base-radio);
+	overflow: hidden;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 280px;
+}
+
+.m2base-producto__placeholder {
+	font-size: 4rem;
+}
+
+.m2base-producto__precio {
+	font-size: 1.7rem;
+	font-weight: 800;
+	color: var(--m2base-primario);
+	margin: 6px 0 18px;
+}
+
+.m2base-producto__ficha {
+	list-style: none;
+	margin: 0 0 24px;
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	color: var(--m2base-texto-suave);
+}
+
+.m2base-producto__ficha strong {
+	color: var(--m2base-texto);
+}
+
+.m2base-producto__acciones {
+	display: flex;
+	gap: 12px;
+	flex-wrap: wrap;
+	margin-bottom: 12px;
+}
+
+.m2base-producto__nota {
+	font-size: 0.85rem;
+	color: var(--m2base-texto-suave);
+}
+
+.m2base-producto__descripcion {
+	margin-top: 40px;
+	background: var(--m2base-superficie);
+	border: 1px solid var(--m2base-borde);
+	border-radius: var(--m2base-radio);
+	padding: 24px;
+}
+
+/* Footer */
+.m2base-footer {
+	background: var(--m2base-primario);
+	color: #cbd2e0;
+	margin-top: 40px;
+}
+
+.m2base-footer__inner {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+	gap: 32px;
+	padding: 48px 20px;
+}
+
+.m2base-footer__col h3 {
+	color: #fff;
+	margin-top: 0;
+}
+
+.m2base-footer__pagos {
+	display: flex;
+	gap: 8px;
+	flex-wrap: wrap;
+	margin-top: 12px;
+}
+
+.m2base-footer__pago-chip {
+	background: rgba(255, 255, 255, 0.08);
+	padding: 6px 10px;
+	border-radius: 999px;
+	font-size: 0.75rem;
+}
+
+.m2base-footer__menu {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.m2base-footer__menu a {
+	color: #cbd2e0;
+	text-decoration: none;
+}
+
+.m2base-footer__menu a:hover {
+	color: #fff;
+}
+
+.m2base-footer__legal {
+	border-top: 1px solid rgba(255, 255, 255, 0.12);
+	padding: 16px 20px;
+	font-size: 0.8rem;
+	text-align: center;
+}
+
+/* Genérico: páginas, entradas, 404 */
+.m2base-pagina,
+.m2base-404 {
+	padding: 48px 0 60px;
+}
+
+.m2base-entrada {
+	background: var(--m2base-superficie);
+	border: 1px solid var(--m2base-borde);
+	border-radius: var(--m2base-radio);
+	padding: 20px;
+	margin-bottom: 20px;
+}
+
+.m2base-entrada h2 {
+	margin-top: 0;
+}
+
+.m2base-entrada h2 a {
+	text-decoration: none;
+}
+
+/* Responsive */
+@media (max-width: 860px) {
+	.m2base-producto__grid {
+		grid-template-columns: 1fr;
+	}
+}
+
+@media (max-width: 720px) {
+	.m2base-header__menu-toggle {
+		display: flex;
+	}
+
+	.m2base-header__nav {
+		display: none;
+		width: 100%;
+		order: 3;
+	}
+
+	.m2base-header__nav--abierto {
+		display: block;
+	}
+
+	.m2base-menu {
+		flex-direction: column;
+		gap: 4px;
+		padding: 12px 0;
+	}
+
+	.m2base-header__principal {
+		flex-wrap: wrap;
+	}
+
+	.m2base-seccion-buscador {
+		margin-top: -30px;
+	}
+}
