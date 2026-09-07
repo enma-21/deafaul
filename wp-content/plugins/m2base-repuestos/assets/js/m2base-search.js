@@ -14,14 +14,19 @@
 		var resultados  = contenedor.querySelector( '[data-m2base-resultados]' );
 		var formData    = new FormData( form );
 		var boton       = form.querySelector( '.m2base-buscador__boton' );
-		var textoBoton  = boton.textContent;
+		var textoNodo   = boton.querySelector( '[data-m2base-boton-texto]' );
+		var textoBoton  = textoNodo ? textoNodo.textContent : boton.textContent;
 
 		formData.append( 'action', 'm2base_buscar_repuestos' );
 		formData.append( 'nonce', window.M2BaseRepuestos.nonce );
 		formData.append( 'pagina', pagina || 1 );
 
-		boton.disabled    = true;
-		boton.textContent = window.M2BaseRepuestos.i18n.buscando;
+		boton.disabled = true;
+		if ( textoNodo ) {
+			textoNodo.textContent = window.M2BaseRepuestos.i18n.buscando;
+		} else {
+			boton.textContent = window.M2BaseRepuestos.i18n.buscando;
+		}
 		resultados.setAttribute( 'aria-busy', 'true' );
 
 		fetch( window.M2BaseRepuestos.ajaxUrl, {
@@ -43,8 +48,12 @@
 				resultados.innerHTML = '<p class="m2base-sin-resultados">' + window.M2BaseRepuestos.i18n.error + '</p>';
 			} )
 			.finally( function () {
-				boton.disabled    = false;
-				boton.textContent = textoBoton;
+				boton.disabled = false;
+				if ( textoNodo ) {
+					textoNodo.textContent = textoBoton;
+				} else {
+					boton.textContent = textoBoton;
+				}
 				resultados.removeAttribute( 'aria-busy' );
 			} );
 	}

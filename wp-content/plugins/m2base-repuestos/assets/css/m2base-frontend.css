@@ -73,6 +73,16 @@
 	font-size: 0.95rem;
 	cursor: pointer;
 	transition: filter 0.15s ease;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+}
+
+.m2base-buscador__boton-icono {
+	width: 18px;
+	height: 18px;
+	flex-shrink: 0;
 }
 
 .m2base-buscador__boton:hover,

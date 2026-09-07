@@ -9,6 +9,7 @@ get_header();
 <main id="contenido-principal" class="m2base-main">
 
 	<section class="m2base-hero">
+		<span class="m2base-hero__decoracion"><?php echo m2base_theme_icon( 'motor' ); ?></span>
 		<div class="m2base-contenedor m2base-hero__inner">
 			<div class="m2base-hero__texto">
 				<span class="m2base-hero__etiqueta"><?php esc_html_e( 'Repuestos originales y alternativos', 'm2base-repuestos-theme' ); ?></span>
@@ -44,6 +45,7 @@ get_header();
 					<div class="m2base-categorias__grid">
 						<?php foreach ( $categorias as $categoria ) : ?>
 							<a class="m2base-categorias__item" href="<?php echo esc_url( get_term_link( $categoria ) ); ?>">
+								<?php echo m2base_theme_icon( m2base_theme_icono_categoria( $categoria->name ), 'm2base-categorias__icono' ); ?>
 								<span><?php echo esc_html( $categoria->name ); ?></span>
 							</a>
 						<?php endforeach; ?>

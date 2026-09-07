@@ -91,7 +91,10 @@ class M2Base_Repuestos_Search {
 						<?php endforeach; ?>
 					</select>
 				</div>
-				<button type="submit" class="m2base-buscador__boton"><?php esc_html_e( 'Buscar repuesto', 'm2base-repuestos' ); ?></button>
+				<button type="submit" class="m2base-buscador__boton">
+					<svg class="m2base-buscador__boton-icono" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+					<span data-m2base-boton-texto><?php esc_html_e( 'Buscar repuesto', 'm2base-repuestos' ); ?></span>
+				</button>
 			</form>
 			<div class="m2base-buscador__resultados" data-m2base-resultados></div>
 		</div>

@@ -3,7 +3,7 @@ Theme Name: M2Base Repuestos
 Theme URI: https://testproyect.m2base.com/
 Author: M2Base
 Description: Tema simple y moderno para catálogo de repuestos de vehículos, con buscador en portada y preparado para integrar WooCommerce (Stripe / transferencia bancaria) más adelante.
-Version: 1.0.0
+Version: 1.1.0
 Requires at least: 6.0
 Requires PHP: 7.4
 License: GPLv2 or later
@@ -21,7 +21,7 @@ Text Domain: m2base-repuestos-theme
 	--m2base-texto: #1d2433;
 	--m2base-texto-suave: #667085;
 	--m2base-radio: 12px;
-	--m2base-fuente: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+	--m2base-fuente: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
 * {
@@ -36,10 +36,27 @@ body {
 	line-height: 1.55;
 }
 
+h1, h2, h3, h4 {
+	font-weight: 700;
+	letter-spacing: -0.01em;
+}
+
 img {
 	max-width: 100%;
 	height: auto;
 	display: block;
+}
+
+.m2base-icono {
+	display: inline-flex;
+	width: 1em;
+	height: 1em;
+	flex-shrink: 0;
+}
+
+.m2base-icono svg {
+	width: 100%;
+	height: 100%;
 }
 
 a {
@@ -98,15 +115,55 @@ a {
 	flex-wrap: wrap;
 }
 
-.m2base-header__contacto a,
-.m2base-header__redes a {
-	color: #cbd2e0;
-	text-decoration: none;
-	margin-right: 16px;
+.m2base-header__contacto {
+	display: flex;
+	align-items: center;
+	gap: 20px;
+	flex-wrap: wrap;
 }
 
-.m2base-header__contacto a:hover,
-.m2base-header__redes a:hover {
+.m2base-header__redes {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.m2base-header__contacto a {
+	color: #cbd2e0;
+	text-decoration: none;
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+}
+
+.m2base-header__contacto a .m2base-icono {
+	width: 0.95em;
+	height: 0.95em;
+}
+
+.m2base-header__contacto a:hover {
+	color: #fff;
+}
+
+.m2base-header__red {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 28px;
+	height: 28px;
+	border-radius: 50%;
+	background: rgba(255, 255, 255, 0.08);
+	color: #cbd2e0;
+	transition: background 0.15s ease, color 0.15s ease;
+}
+
+.m2base-header__red .m2base-icono {
+	width: 0.9em;
+	height: 0.9em;
+}
+
+.m2base-header__red:hover {
+	background: var(--m2base-acento);
 	color: #fff;
 }
 
@@ -117,6 +174,16 @@ a {
 	padding: 16px 20px;
 	background: var(--m2base-superficie);
 	position: relative;
+}
+
+.m2base-header__marca .custom-logo-link {
+	display: block;
+}
+
+.m2base-header__marca img.custom-logo {
+	max-height: 52px;
+	width: auto;
+	border-radius: 8px;
 }
 
 .m2base-header__logo-texto {
@@ -164,13 +231,44 @@ a {
 
 /* Hero */
 .m2base-hero {
-	background: linear-gradient(135deg, var(--m2base-primario), var(--m2base-primario-suave));
+	background:
+		radial-gradient(circle at 88% -15%, rgba(255, 106, 61, 0.35), transparent 45%),
+		radial-gradient(circle at -8% 115%, rgba(59, 130, 246, 0.25), transparent 45%),
+		repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.035) 0 2px, transparent 2px 26px),
+		linear-gradient(135deg, var(--m2base-primario), var(--m2base-primario-suave));
 	color: #fff;
 	padding: 56px 0 90px;
+	position: relative;
+	overflow: hidden;
 }
 
 .m2base-hero__inner {
 	text-align: center;
+	position: relative;
+	z-index: 1;
+}
+
+.m2base-hero__decoracion {
+	position: absolute;
+	top: 50%;
+	right: -40px;
+	transform: translateY(-50%);
+	width: 340px;
+	height: 340px;
+	opacity: 0.08;
+	color: #fff;
+	pointer-events: none;
+}
+
+.m2base-hero__decoracion svg {
+	width: 100%;
+	height: 100%;
+}
+
+@media (max-width: 860px) {
+	.m2base-hero__decoracion {
+		display: none;
+	}
 }
 
 .m2base-hero__etiqueta {
@@ -223,16 +321,28 @@ a {
 	background: var(--m2base-superficie);
 	border: 1px solid var(--m2base-borde);
 	border-radius: var(--m2base-radio);
-	padding: 18px;
+	padding: 22px 18px;
 	text-align: center;
 	font-weight: 700;
 	text-decoration: none;
 	color: var(--m2base-texto);
-	transition: border-color 0.15s ease, color 0.15s ease;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 10px;
+	transition: border-color 0.15s ease, color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
 }
 
 .m2base-categorias__item:hover {
+	transform: translateY(-3px);
+	box-shadow: 0 10px 24px rgba(16, 24, 40, 0.08);
 	border-color: var(--m2base-acento);
+	color: var(--m2base-acento);
+}
+
+.m2base-categorias__icono {
+	width: 30px;
+	height: 30px;
 	color: var(--m2base-acento);
 }
 

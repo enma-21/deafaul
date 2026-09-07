@@ -20,10 +20,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<div class="m2base-contenedor m2base-header__top-inner">
 			<div class="m2base-header__contacto">
 				<?php if ( get_theme_mod( 'm2base_telefono' ) ) : ?>
-					<a href="tel:<?php echo esc_attr( preg_replace( '/\s+/', '', get_theme_mod( 'm2base_telefono' ) ) ); ?>">📞 <?php echo esc_html( get_theme_mod( 'm2base_telefono' ) ); ?></a>
+					<a href="tel:<?php echo esc_attr( preg_replace( '/\s+/', '', get_theme_mod( 'm2base_telefono' ) ) ); ?>"><?php echo m2base_theme_icon( 'telefono' ); ?><?php echo esc_html( get_theme_mod( 'm2base_telefono' ) ); ?></a>
 				<?php endif; ?>
 				<?php if ( get_theme_mod( 'm2base_email' ) ) : ?>
-					<a href="mailto:<?php echo esc_attr( get_theme_mod( 'm2base_email' ) ); ?>">✉️ <?php echo esc_html( get_theme_mod( 'm2base_email' ) ); ?></a>
+					<a href="mailto:<?php echo esc_attr( get_theme_mod( 'm2base_email' ) ); ?>"><?php echo m2base_theme_icon( 'correo' ); ?><?php echo esc_html( get_theme_mod( 'm2base_email' ) ); ?></a>
 				<?php endif; ?>
 			</div>
 			<div class="m2base-header__redes">
@@ -37,7 +37,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				foreach ( $redes as $red => $url ) :
 					if ( $url ) :
 						?>
-						<a href="<?php echo esc_url( $url ); ?>" target="_blank" rel="noopener noreferrer" aria-label="<?php echo esc_attr( ucfirst( $red ) ); ?>"><?php echo esc_html( ucfirst( $red ) ); ?></a>
+						<a class="m2base-header__red" href="<?php echo esc_url( $url ); ?>" target="_blank" rel="noopener noreferrer" aria-label="<?php echo esc_attr( ucfirst( $red ) ); ?>"><?php echo m2base_theme_icon( $red ); ?></a>
 						<?php
 					endif;
 				endforeach;
