@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'M2BASE_THEME_VERSION', '1.1.1' );
+define( 'M2BASE_THEME_VERSION', '1.2.0' );
 
 function m2base_theme_setup() {
 	add_theme_support( 'title-tag' );
@@ -63,6 +63,7 @@ function m2base_theme_icon( $nombre, $clase = '' ) {
 		'filtros'     => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M4 4h16l-6 8v6l-4 2v-8z"/></svg>',
 		'electrico'   => '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 2 3 14h6l-1 8 11-14h-7z"/></svg>',
 		'repuesto'    => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round"><path d="M14.7 6.3a1 1 0 0 0 1.4 0l1.6-1.6a1 1 0 0 0-1.4-1.4l-1.6 1.6a1 1 0 0 0 0 1.4zM3 21l6-1 8.5-8.5-5-5L4 15l-1 6z"/></svg>',
+		'entrega'     => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round"><path d="M21 8l-9-5-9 5 9 5 9-5zM3 8v8l9 5 9-5V8M12 13v8"/></svg>',
 	);
 
 	if ( ! isset( $iconos[ $nombre ] ) ) {

@@ -29,6 +29,32 @@ get_header();
 		</div>
 	</section>
 
+	<section class="m2base-como-funciona">
+		<div class="m2base-contenedor">
+			<h2 class="m2base-seccion-titulo m2base-seccion-titulo--centrado"><?php esc_html_e( 'Cómo funciona', 'm2base-repuestos-theme' ); ?></h2>
+			<div class="m2base-como-funciona__grid">
+				<div class="m2base-como-funciona__item">
+					<span class="m2base-como-funciona__numero">1</span>
+					<?php echo m2base_theme_icon( 'buscar', 'm2base-como-funciona__icono' ); ?>
+					<h3><?php esc_html_e( 'Busca tu repuesto', 'm2base-repuestos-theme' ); ?></h3>
+					<p><?php esc_html_e( 'Usa el buscador por marca, modelo, año o categoría y encuentra la pieza exacta que necesitas.', 'm2base-repuestos-theme' ); ?></p>
+				</div>
+				<div class="m2base-como-funciona__item">
+					<span class="m2base-como-funciona__numero">2</span>
+					<?php echo m2base_theme_icon( 'whatsapp', 'm2base-como-funciona__icono' ); ?>
+					<h3><?php esc_html_e( 'Cotiza por WhatsApp', 'm2base-repuestos-theme' ); ?></h3>
+					<p><?php esc_html_e( 'Escríbenos con el repuesto que te interesa y te confirmamos precio y disponibilidad al instante.', 'm2base-repuestos-theme' ); ?></p>
+				</div>
+				<div class="m2base-como-funciona__item">
+					<span class="m2base-como-funciona__numero">3</span>
+					<?php echo m2base_theme_icon( 'entrega', 'm2base-como-funciona__icono' ); ?>
+					<h3><?php esc_html_e( 'Recíbelo', 'm2base-repuestos-theme' ); ?></h3>
+					<p><?php esc_html_e( 'Coordinamos la entrega o el retiro en tienda, como prefieras.', 'm2base-repuestos-theme' ); ?></p>
+				</div>
+			</div>
+		</div>
+	</section>
+
 	<?php if ( m2base_theme_plugin_activo() ) :
 		$categorias = get_terms(
 			array(
