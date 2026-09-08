@@ -3,7 +3,7 @@ Theme Name: M2Base Repuestos
 Theme URI: https://testproyect.m2base.com/
 Author: M2Base
 Description: Tema simple y moderno para catálogo de repuestos de vehículos, con buscador en portada y preparado para integrar WooCommerce (Stripe / transferencia bancaria) más adelante.
-Version: 1.3.0
+Version: 1.4.0
 Requires at least: 6.0
 Requires PHP: 7.4
 License: GPLv2 or later
@@ -317,6 +317,53 @@ a {
 .m2base-como-funciona,
 .m2base-marcas {
 	padding: 48px 0;
+}
+
+.m2base-cifras {
+	padding: 40px 0 12px;
+}
+
+.m2base-cifras__grid {
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap;
+	text-align: center;
+}
+
+.m2base-cifras__item {
+	padding: 0 40px;
+	border-right: 1px solid var(--m2base-borde);
+}
+
+.m2base-cifras__item:last-child {
+	border-right: none;
+}
+
+.m2base-cifras__numero {
+	display: block;
+	font-size: clamp(1.8rem, 3vw, 2.4rem);
+	font-weight: 800;
+	color: var(--m2base-primario);
+}
+
+.m2base-cifras__etiqueta {
+	display: block;
+	font-size: 0.85rem;
+	color: var(--m2base-texto-suave);
+	margin-top: 4px;
+}
+
+@media (max-width: 600px) {
+	.m2base-cifras__item {
+		padding: 12px 20px;
+		border-right: none;
+		border-bottom: 1px solid var(--m2base-borde);
+		flex: 1 1 100%;
+	}
+
+	.m2base-cifras__item:last-child {
+		border-bottom: none;
+	}
 }
 
 .m2base-marcas__grid {

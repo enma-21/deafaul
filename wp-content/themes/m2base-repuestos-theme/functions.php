@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'M2BASE_THEME_VERSION', '1.3.0' );
+define( 'M2BASE_THEME_VERSION', '1.4.0' );
 
 function m2base_theme_setup() {
 	add_theme_support( 'title-tag' );
@@ -169,6 +169,18 @@ function m2base_theme_marcas_logos() {
 		array( 'nombre' => 'Toyota', 'archivo' => 'toyota.png', 'slug' => 'toyota' ),
 		array( 'nombre' => 'Ford', 'archivo' => 'ford.png', 'slug' => 'ford' ),
 		array( 'nombre' => 'Chevrolet', 'archivo' => 'chevrolet.jpg', 'slug' => 'chevrolet' ),
+	);
+}
+
+/**
+ * Cifras de confianza mostradas en la portada. Son valores de ejemplo:
+ * ajústalos aquí cuando el cliente confirme sus números reales.
+ */
+function m2base_theme_numeros_confianza() {
+	return array(
+		array( 'numero' => '+500', 'etiqueta' => __( 'Repuestos disponibles', 'm2base-repuestos-theme' ) ),
+		array( 'numero' => '+10', 'etiqueta' => __( 'Años de experiencia', 'm2base-repuestos-theme' ) ),
+		array( 'numero' => '100%', 'etiqueta' => __( 'Envíos a todo el país', 'm2base-repuestos-theme' ) ),
 	);
 }
 

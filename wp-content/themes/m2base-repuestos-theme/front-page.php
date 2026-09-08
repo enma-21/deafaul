@@ -29,6 +29,17 @@ get_header();
 		</div>
 	</section>
 
+	<section class="m2base-cifras">
+		<div class="m2base-contenedor m2base-cifras__grid">
+			<?php foreach ( m2base_theme_numeros_confianza() as $cifra ) : ?>
+				<div class="m2base-cifras__item">
+					<span class="m2base-cifras__numero"><?php echo esc_html( $cifra['numero'] ); ?></span>
+					<span class="m2base-cifras__etiqueta"><?php echo esc_html( $cifra['etiqueta'] ); ?></span>
+				</div>
+			<?php endforeach; ?>
+		</div>
+	</section>
+
 	<section class="m2base-como-funciona">
 		<div class="m2base-contenedor">
 			<h2 class="m2base-seccion-titulo m2base-seccion-titulo--centrado"><?php esc_html_e( 'Cómo funciona', 'm2base-repuestos-theme' ); ?></h2>
