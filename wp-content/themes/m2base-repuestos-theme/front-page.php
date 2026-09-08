@@ -73,7 +73,7 @@ get_header();
 				<?php foreach ( m2base_theme_marcas_logos() as $marca ) :
 					$termino = m2base_theme_plugin_activo() ? get_term_by( 'slug', $marca['slug'], 'marca_vehiculo' ) : false;
 					$enlace  = $termino && ! is_wp_error( $termino ) ? get_term_link( $termino ) : '';
-					$imagen  = get_template_directory_uri() . '/assets/images/marcas/' . $marca['archivo'];
+					$imagen  = get_template_directory_uri() . '/assets/images/marcas/' . $marca['archivo'] . '?v=' . M2BASE_THEME_VERSION;
 					?>
 					<?php if ( $enlace ) : ?>
 						<a class="m2base-marcas__item" href="<?php echo esc_url( $enlace ); ?>" aria-label="<?php echo esc_attr( $marca['nombre'] ); ?>">
