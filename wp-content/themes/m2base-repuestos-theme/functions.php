@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'M2BASE_THEME_VERSION', '1.2.0' );
+define( 'M2BASE_THEME_VERSION', '1.3.0' );
 
 function m2base_theme_setup() {
 	add_theme_support( 'title-tag' );
@@ -158,6 +158,19 @@ function m2base_theme_customizer( $wp_customize ) {
 	}
 }
 add_action( 'customize_register', 'm2base_theme_customizer' );
+
+/**
+ * Logos de marcas de vehículo que se muestran en la portada como prueba de
+ * confianza. El "slug" debe coincidir con el de un término de la taxonomía
+ * marca_vehiculo para que el logo enlace a su archivo de repuestos.
+ */
+function m2base_theme_marcas_logos() {
+	return array(
+		array( 'nombre' => 'Toyota', 'archivo' => 'toyota.png', 'slug' => 'toyota' ),
+		array( 'nombre' => 'Ford', 'archivo' => 'ford.png', 'slug' => 'ford' ),
+		array( 'nombre' => 'Chevrolet', 'archivo' => 'chevrolet.jpg', 'slug' => 'chevrolet' ),
+	);
+}
 
 function m2base_theme_medios_de_pago() {
 	return array(

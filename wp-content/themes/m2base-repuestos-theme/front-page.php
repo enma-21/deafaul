@@ -55,6 +55,29 @@ get_header();
 		</div>
 	</section>
 
+	<section class="m2base-marcas">
+		<div class="m2base-contenedor">
+			<h2 class="m2base-seccion-titulo m2base-seccion-titulo--centrado"><?php esc_html_e( 'Marcas que atendemos', 'm2base-repuestos-theme' ); ?></h2>
+			<div class="m2base-marcas__grid">
+				<?php foreach ( m2base_theme_marcas_logos() as $marca ) :
+					$termino = m2base_theme_plugin_activo() ? get_term_by( 'slug', $marca['slug'], 'marca_vehiculo' ) : false;
+					$enlace  = $termino && ! is_wp_error( $termino ) ? get_term_link( $termino ) : '';
+					$imagen  = get_template_directory_uri() . '/assets/images/marcas/' . $marca['archivo'];
+					?>
+					<?php if ( $enlace ) : ?>
+						<a class="m2base-marcas__item" href="<?php echo esc_url( $enlace ); ?>" aria-label="<?php echo esc_attr( $marca['nombre'] ); ?>">
+							<img src="<?php echo esc_url( $imagen ); ?>" alt="<?php echo esc_attr( $marca['nombre'] ); ?>" loading="lazy" />
+						</a>
+					<?php else : ?>
+						<span class="m2base-marcas__item">
+							<img src="<?php echo esc_url( $imagen ); ?>" alt="<?php echo esc_attr( $marca['nombre'] ); ?>" loading="lazy" />
+						</span>
+					<?php endif; ?>
+				<?php endforeach; ?>
+			</div>
+		</div>
+	</section>
+
 	<?php if ( m2base_theme_plugin_activo() ) :
 		$categorias = get_terms(
 			array(
