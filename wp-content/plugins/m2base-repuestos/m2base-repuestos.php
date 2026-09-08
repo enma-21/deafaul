@@ -2,7 +2,7 @@
 /**
  * Plugin Name: M2Base Repuestos
  * Description: Catálogo interno y buscador de repuestos de vehículos (marca, modelo, año, categoría). Pensado como base para integrar más adelante WooCommerce + Stripe / transferencia bancaria.
- * Version: 1.0.1
+ * Version: 1.0.2
  * Author: M2Base
  * Text Domain: m2base-repuestos
  */
@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'M2BASE_REPUESTOS_VERSION', '1.0.1' );
+define( 'M2BASE_REPUESTOS_VERSION', '1.0.2' );
 define( 'M2BASE_REPUESTOS_PATH', plugin_dir_path( __FILE__ ) );
 define( 'M2BASE_REPUESTOS_URL', plugin_dir_url( __FILE__ ) );
 

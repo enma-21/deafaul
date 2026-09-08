@@ -2,6 +2,7 @@
 .m2base-card,
 .m2base-grid {
 	--m2base-primario: #101828;
+	--m2base-primario-suave: #1d2b45;
 	--m2base-acento: #ff6a3d;
 	--m2base-fondo: #f7f8fa;
 	--m2base-borde: #e4e7ec;
@@ -17,10 +18,16 @@
 }
 
 .m2base-buscador {
-	background: var(--m2base-primario);
+	background:
+		radial-gradient(circle at 88% -15%, rgba(255, 106, 61, 0.35), transparent 45%),
+		radial-gradient(circle at -8% 115%, rgba(59, 130, 246, 0.25), transparent 45%),
+		repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.035) 0 2px, transparent 2px 26px),
+		linear-gradient(135deg, var(--m2base-primario), var(--m2base-primario-suave));
 	border-radius: 16px;
 	padding: 32px;
 	color: #fff;
+	position: relative;
+	overflow: hidden;
 }
 
 .m2base-buscador__titulo {
