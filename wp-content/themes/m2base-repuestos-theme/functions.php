@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'M2BASE_THEME_VERSION', '1.1.0' );
+define( 'M2BASE_THEME_VERSION', '1.1.1' );
 
 function m2base_theme_setup() {
 	add_theme_support( 'title-tag' );
@@ -12,8 +12,8 @@ function m2base_theme_setup() {
 	add_theme_support(
 		'custom-logo',
 		array(
-			'height'      => 80,
-			'width'       => 80,
+			'height'      => 160,
+			'width'       => 160,
 			'flex-height' => true,
 			'flex-width'  => true,
 		)
