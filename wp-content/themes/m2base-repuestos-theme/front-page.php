@@ -22,7 +22,7 @@ get_header();
 	<section class="m2base-seccion-buscador">
 		<div class="m2base-contenedor">
 			<?php if ( m2base_theme_plugin_activo() ) : ?>
-				<?php echo do_shortcode( '[m2base_buscador_repuestos]' ); ?>
+				<?php echo do_shortcode( '[m2base_buscador_repuestos titulo=""]' ); ?>
 			<?php else : ?>
 				<p class="m2base-aviso"><?php esc_html_e( 'Activa el plugin M2Base Repuestos para mostrar el buscador aquí.', 'm2base-repuestos-theme' ); ?></p>
 			<?php endif; ?>
