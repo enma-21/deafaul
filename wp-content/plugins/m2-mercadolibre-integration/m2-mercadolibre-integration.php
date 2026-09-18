@@ -1,8 +1,8 @@
 <?php
 /**
  * Plugin Name: M2 Mercado Libre Integration
- * Description: OAuth, token refresh, notification callback and bulk recategorization for Mercado Libre Colombia.
- * Version: 0.2.0
+ * Description: OAuth, token refresh, notification callback and bulk recategorization for Mercado Libre (multi-country).
+ * Version: 0.3.0
  * Author: M2 Base
  * License: GPL-2.0-or-later
  */
@@ -18,9 +18,34 @@ final class M2_Mercado_Libre_Integration {
     private const RECAT_BATCH_SIZE = 10;
     private const RECAT_MAX_ATTEMPTS = 5;
     private const STATE_PREFIX = 'm2_ml_oauth_state_';
-    private const AUTH_URL = 'https://auth.mercadolibre.com.co/authorization';
     private const TOKEN_URL = 'https://api.mercadolibre.com/oauth/token';
     private const API_URL = 'https://api.mercadolibre.com';
+
+    /**
+     * Mercado Libre's login/authorization page is country-specific: it rejects
+     * credentials from a different country's site even though the app (client_id)
+     * itself works globally for the token exchange. This maps the Site ID setting
+     * to the correct auth.mercadolibre.<domain> to show the right login page.
+     */
+    private const AUTH_DOMAINS = [
+        'MLA' => 'com.ar',
+        'MCO' => 'com.co',
+        'MLC' => 'cl',
+        'MLM' => 'com.mx',
+        'MLU' => 'com.uy',
+        'MPE' => 'com.pe',
+        'MEC' => 'com.ec',
+        'MLV' => 'com.ve',
+        'MCR' => 'co.cr',
+        'MPA' => 'com.pa',
+        'MPY' => 'com.py',
+        'MBO' => 'com.bo',
+        'MGT' => 'com.gt',
+        'MHN' => 'com.hn',
+        'MNI' => 'com.ni',
+        'MSV' => 'com.sv',
+        'MDO' => 'com.do',
+    ];
 
     public static function init(): void {
         add_action('init', [self::class, 'register_routes']);
@@ -129,6 +154,13 @@ final class M2_Mercado_Libre_Integration {
         return home_url('/mercadolibre/authorize');
     }
 
+    private static function auth_login_url(): string {
+        $settings = self::settings();
+        $site_id = strtoupper(trim((string) $settings['site_id']));
+        $domain = self::AUTH_DOMAINS[$site_id] ?? 'com.ar';
+        return "https://auth.mercadolibre.{$domain}/authorization";
+    }
+
     private static function base64url(string $value): string {
         return rtrim(strtr(base64_encode($value), '+/', '-_'), '=');
     }
@@ -186,7 +218,7 @@ final class M2_Mercado_Libre_Integration {
             'state' => $state,
             'code_challenge' => $challenge,
             'code_challenge_method' => 'S256',
-        ], self::AUTH_URL);
+        ], self::auth_login_url());
 
         wp_redirect($url, 302, 'M2 Mercado Libre');
         exit;
@@ -663,7 +695,13 @@ final class M2_Mercado_Libre_Integration {
                     </tr>
                     <tr>
                         <th scope="row"><label for="m2-ml-site-id">Site ID</label></th>
-                        <td><input id="m2-ml-site-id" name="site_id" type="text" class="regular-text" value="<?php echo esc_attr($settings['site_id']); ?>" maxlength="3"></td>
+                        <td>
+                            <input id="m2-ml-site-id" name="site_id" type="text" class="regular-text" value="<?php echo esc_attr($settings['site_id']); ?>" maxlength="3">
+                            <p class="description">
+                                País de la cuenta que vas a conectar (no el país donde se creó la app). Determina la pantalla de login al pulsar "Conectar Mercado Libre" — Mercado Libre rechaza el login si no coincide con el país real de la cuenta.
+                                Ej: <code>MCO</code> = Colombia, <code>MLV</code> = Venezuela, <code>MLA</code> = Argentina, <code>MLM</code> = México.
+                            </p>
+                        </td>
                     </tr>
                 </table>
                 <?php submit_button('Guardar configuración'); ?>
