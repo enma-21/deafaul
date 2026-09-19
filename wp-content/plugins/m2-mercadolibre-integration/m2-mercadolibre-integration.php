@@ -2,7 +2,7 @@
 /**
  * Plugin Name: M2 Mercado Libre Integration
  * Description: OAuth, token refresh, notification callback and bulk recategorization for Mercado Libre (multi-country).
- * Version: 0.3.0
+ * Version: 0.4.0
  * Author: M2 Base
  * License: GPL-2.0-or-later
  */
@@ -465,9 +465,15 @@ final class M2_Mercado_Libre_Integration {
             'id categoria destino', 'id categoría destino', 'categoria destino id',
             'category_id_destino', 'nueva categoria id', 'category_id',
         ];
+        $brand_candidates = ['marca', 'brand'];
+        $part_number_candidates = ['numero de parte', 'número de parte', 'part_number', 'part number', 'no. de parte'];
+        $vehicle_type_candidates = ['tipo de vehiculo', 'tipo de vehículo', 'vehicle_type', 'vehicle type'];
 
         $item_col = self::find_column($normalized, $item_candidates);
         $category_col = self::find_column($normalized, $category_candidates);
+        $brand_col = self::find_column($normalized, $brand_candidates);
+        $part_number_col = self::find_column($normalized, $part_number_candidates);
+        $vehicle_type_col = self::find_column($normalized, $vehicle_type_candidates);
 
         if ($item_col === null || $category_col === null) {
             fclose($handle);
@@ -488,6 +494,9 @@ final class M2_Mercado_Libre_Integration {
             $queue[] = [
                 'item_id' => $item_id,
                 'category_id' => $category_id,
+                'brand' => $brand_col !== null && isset($row[$brand_col]) ? trim((string) $row[$brand_col]) : '',
+                'part_number' => $part_number_col !== null && isset($row[$part_number_col]) ? trim((string) $row[$part_number_col]) : '',
+                'vehicle_type' => $vehicle_type_col !== null && isset($row[$vehicle_type_col]) ? trim((string) $row[$vehicle_type_col]) : '',
                 'status' => 'pending',
                 'http_status' => null,
                 'detail' => '',
@@ -563,6 +572,70 @@ final class M2_Mercado_Libre_Integration {
         return implode(' | ', $parts);
     }
 
+    /** @var array<string, array> */
+    private static array $categoryAttributesCache = [];
+
+    private static function get_category_attributes(string $category_id): array {
+        if (isset(self::$categoryAttributesCache[$category_id])) {
+            return self::$categoryAttributesCache[$category_id];
+        }
+
+        $response = wp_remote_get(
+            self::API_URL . '/categories/' . rawurlencode($category_id) . '/attributes',
+            ['timeout' => 15]
+        );
+
+        $data = [];
+        if (!is_wp_error($response) && wp_remote_retrieve_response_code($response) === 200) {
+            $decoded = json_decode(wp_remote_retrieve_body($response), true);
+            if (is_array($decoded)) {
+                $data = $decoded;
+            }
+        }
+
+        self::$categoryAttributesCache[$category_id] = $data;
+        return $data;
+    }
+
+    /**
+     * Builds the "attributes" array for the PUT body from the row's Marca/Número
+     * de Parte/Tipo de Vehículo columns. Tipo de Vehículo needs a value_id (it's
+     * a fixed list), so it's resolved against the category's real attribute
+     * definition — if the CSV left it blank and the category only has one valid
+     * option (common for car-parts categories), that single option is used.
+     */
+    private static function build_item_attributes(string $category_id, array $row): array {
+        $attributes = [];
+
+        if (($row['brand'] ?? '') !== '') {
+            $attributes[] = ['id' => 'BRAND', 'value_name' => $row['brand']];
+        }
+        if (($row['part_number'] ?? '') !== '') {
+            $attributes[] = ['id' => 'PART_NUMBER', 'value_name' => $row['part_number']];
+        }
+
+        foreach (self::get_category_attributes($category_id) as $attr) {
+            if (($attr['id'] ?? '') !== 'VEHICLE_TYPE') {
+                continue;
+            }
+            $values = $attr['values'] ?? [];
+            $wanted = $row['vehicle_type'] ?? '';
+            if ($wanted !== '') {
+                foreach ($values as $value) {
+                    if (strcasecmp((string) ($value['name'] ?? ''), $wanted) === 0) {
+                        $attributes[] = ['id' => 'VEHICLE_TYPE', 'value_id' => (string) $value['id']];
+                        break;
+                    }
+                }
+            } elseif (count($values) === 1) {
+                $attributes[] = ['id' => 'VEHICLE_TYPE', 'value_id' => (string) $values[0]['id']];
+            }
+            break;
+        }
+
+        return $attributes;
+    }
+
     private static function recat_process_batch(): void {
         $queue = get_option(self::RECAT_OPTION, []);
         if (empty($queue)) {
@@ -587,6 +660,12 @@ final class M2_Mercado_Libre_Integration {
                 continue;
             }
 
+            $body = ['category_id' => $row['category_id']];
+            $attributes = self::build_item_attributes($row['category_id'], $row);
+            if (!empty($attributes)) {
+                $body['attributes'] = $attributes;
+            }
+
             $response = wp_remote_request(self::API_URL . '/items/' . rawurlencode($row['item_id']), [
                 'method' => 'PUT',
                 'timeout' => 20,
@@ -594,7 +673,7 @@ final class M2_Mercado_Libre_Integration {
                     'Authorization' => 'Bearer ' . $token,
                     'Content-Type' => 'application/json',
                 ],
-                'body' => wp_json_encode(['category_id' => $row['category_id']]),
+                'body' => wp_json_encode($body),
             ]);
 
             $processed++;
@@ -725,7 +804,12 @@ final class M2_Mercado_Libre_Integration {
 
             <hr>
             <h2>Recategorización masiva</h2>
-            <p>Sube un CSV con dos columnas: ID de la publicación e ID de categoría destino (exporta la pestaña "Planilla de Mapeo" del Excel como CSV).</p>
+            <p>
+                Sube un CSV con columnas: ID de la publicación e ID de categoría destino (obligatorias), y opcionalmente
+                <strong>Marca</strong> y <strong>Número de Parte</strong> — necesarias cuando la categoría destino las exige y la
+                categoría actual no las pedía. El "Tipo de Vehículo" se resuelve automáticamente si la categoría solo tiene una
+                opción válida.
+            </p>
 
             <?php if (isset($_GET['recat_error'])) : ?>
                 <div class="notice notice-error"><p><?php echo esc_html(wp_unslash($_GET['recat_error'])); ?></p></div>
