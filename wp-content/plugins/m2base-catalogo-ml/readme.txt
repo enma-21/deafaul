@@ -1,6 +1,6 @@
 === M2Base Catálogo Mercado Libre ===
 
-Sincroniza el catálogo completo de Mercado Libre a una base de datos MySQL propia (tablas nuevas, no usa post/postmeta de WordPress) y ofrece un buscador con filtros para el sitio. Es la base de datos previa al futuro bot de WhatsApp con IA — por ahora solo hace sincronización y búsqueda, sin bot todavía.
+Sincroniza el catálogo completo de Mercado Libre a una base de datos MySQL propia (tablas nuevas, no usa post/postmeta de WordPress) y ofrece un buscador con filtros interno, solo para wp-admin. Es la base de datos previa al futuro bot de WhatsApp con IA — por ahora solo hace sincronización y búsqueda interna, sin bot y sin nada público en el sitio todavía.
 
 Requiere que el plugin **M2 Mercado Libre Integration** esté activo y conectado (Ajustes → Mercado Libre), porque reutiliza su token de acceso.
 
@@ -8,7 +8,7 @@ Requiere que el plugin **M2 Mercado Libre Integration** esté activo y conectado
 
 1. Sube la carpeta `m2base-catalogo-ml` a `wp-content/plugins/` (por FTP, igual que los otros plugins de este sitio) y actívala desde Plugins.
 2. Verifica en Ajustes → Mercado Libre que la cuenta esté conectada.
-3. Abre Ajustes → Catálogo ML.
+3. Abre Ajustes → Catálogo ML para sincronizar, o Ajustes → Buscador catálogo ML para buscar/filtrar. Ambas pantallas requieren iniciar sesión como administrador — no son públicas.
 
 == Sincronización ==
 
@@ -20,7 +20,7 @@ Requiere que el plugin **M2 Mercado Libre Integration** esté activo y conectado
 
 == Buscador ==
 
-Agrega el shortcode `[m2base_catalogo_ml]` en cualquier página o entrada. Filtros disponibles: texto libre (también busca por número de parte), marca y modelo de vehículo (heurístico, ver abajo), categoría, rango de año y rango de precio. Cada resultado enlaza directamente a la publicación real en Mercado Libre — este buscador no reemplaza la compra, solo ayuda a encontrar el producto.
+Ajustes → Buscador catálogo ML, dentro del wp-admin — no hay shortcode ni nada visible en el sitio público todavía. Filtros disponibles: texto libre (también busca por número de parte), marca y modelo de vehículo (heurístico, ver abajo), categoría, rango de año y rango de precio. Cada resultado enlaza directamente a la publicación real en Mercado Libre.
 
 == Sobre la marca/modelo de vehículo ==
 

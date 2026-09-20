@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: M2Base Catálogo Mercado Libre
- * Description: Sincroniza el catálogo completo de Mercado Libre a una base de datos MySQL propia y ofrece un buscador/filtros para el sitio (shortcode [m2base_catalogo_ml]). Base de datos previa al futuro bot de WhatsApp con IA.
+ * Description: Sincroniza el catálogo completo de Mercado Libre a una base de datos MySQL propia y ofrece un buscador/filtros interno (solo wp-admin). Base de datos previa al futuro bot de WhatsApp con IA.
  * Version: 1.0.0
  * Author: M2 Base
  * Text Domain: m2base-catalogo-ml

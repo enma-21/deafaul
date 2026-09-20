@@ -137,8 +137,11 @@ final class M2Base_Catalogo_ML_Admin {
             <?php endif; ?>
 
             <hr>
-            <h2>Buscador para el sitio</h2>
-            <p>Agrega el shortcode <code>[m2base_catalogo_ml]</code> en cualquier página o entrada para mostrar el buscador del catálogo.</p>
+            <h2>Buscador interno</h2>
+            <p>
+                <a href="<?php echo esc_url(admin_url('options-general.php?page=' . M2Base_Catalogo_ML_Search::PAGE_SLUG)); ?>">Buscador del catálogo</a>
+                — herramienta solo para el admin de WordPress, no está publicada en el sitio.
+            </p>
         </div>
         <?php
     }
