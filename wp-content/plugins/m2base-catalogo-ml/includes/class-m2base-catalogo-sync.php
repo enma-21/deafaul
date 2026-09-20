@@ -135,8 +135,14 @@ final class M2Base_Catalogo_ML_Sync {
             }
 
             foreach ($ids as $item_id) {
+                // UPSERT (no INSERT IGNORE): un item que ya existía de una corrida
+                // anterior debe volver a 'pending' para que la fase de detalle lo
+                // revalide de nuevo. Si solo se ignorara por ya existir, nunca se
+                // confirmaría su continuidad y finalizar() lo marcaría inactivo
+                // por error, aunque siga activo en Mercado Libre.
                 $wpdb->query($wpdb->prepare(
-                    "INSERT IGNORE INTO `{$queue_table}` (item_id, status) VALUES (%s, 'pending')",
+                    "INSERT INTO `{$queue_table}` (item_id, status, attempts) VALUES (%s, 'pending', 0)
+                     ON DUPLICATE KEY UPDATE status = 'pending', attempts = 0, http_status = NULL, detail = ''",
                     (string) $item_id
                 ));
                 $total_listed++;
@@ -344,7 +350,24 @@ final class M2Base_Catalogo_ML_Sync {
     private static function finalizar(array $state): void {
         global $wpdb;
         $started_at_gmt = (string) ($state['started_at_gmt'] ?? current_time('mysql', true));
-        M2Base_Catalogo_ML_Repository::marcar_inactivos_antes_de($started_at_gmt);
+        $test_limit = (int) ($state['test_limit'] ?? 0);
+        $total_listed = (int) ($state['total_listed'] ?? 0);
+
+        // Salvaguarda: si esta corrida no llegó a listar nada (ej. un error de
+        // red/token cortó la fase de listado) y no era una prueba a propósito
+        // limitada, no hay forma de saber qué sigue activo de verdad — mejor
+        // dejar el catálogo como estaba que marcarlo todo inactivo por error.
+        if ($total_listed === 0 && $test_limit === 0) {
+            update_option(self::STATE_OPTION, array_merge($state, ['phase' => 'done']), false);
+            return;
+        }
+
+        // En una corrida de prueba (test_limit > 0) solo se revalidó una
+        // muestra parcial del catálogo, así que tampoco se puede usar para
+        // marcar inactivo lo que no apareció en esa muestra.
+        if ($test_limit === 0) {
+            M2Base_Catalogo_ML_Repository::marcar_inactivos_antes_de($started_at_gmt);
+        }
         M2Base_Catalogo_ML_Repository::invalidar_cache_filtros();
 
         $queue_table = M2Base_Catalogo_ML_Schema::table_queue();
