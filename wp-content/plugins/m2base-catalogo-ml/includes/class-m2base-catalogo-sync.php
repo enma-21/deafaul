@@ -94,9 +94,19 @@ final class M2Base_Catalogo_ML_Sync {
         $terminado = false;
 
         for ($page = 0; $page < self::LISTING_PAGES_PER_TICK; $page++) {
+            $limit = 100;
+            if ($test_limit > 0) {
+                $restante = $test_limit - $total_listed;
+                if ($restante <= 0) {
+                    $terminado = true;
+                    break;
+                }
+                $limit = min(100, $restante);
+            }
+
             $url = self::API_URL . '/users/' . rawurlencode($seller_id) . '/items/search?' . http_build_query([
                 'search_type' => 'scan',
-                'limit' => 100,
+                'limit' => $limit,
                 'status' => 'active',
                 'scroll_id' => $scroll_id,
             ]);
@@ -118,6 +128,10 @@ final class M2Base_Catalogo_ML_Sync {
             if (empty($ids)) {
                 $terminado = true;
                 break;
+            }
+
+            if ($test_limit > 0) {
+                $ids = array_slice($ids, 0, max(0, $test_limit - $total_listed));
             }
 
             foreach ($ids as $item_id) {
