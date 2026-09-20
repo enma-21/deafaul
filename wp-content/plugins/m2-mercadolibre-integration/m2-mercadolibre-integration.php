@@ -2,7 +2,7 @@
 /**
  * Plugin Name: M2 Mercado Libre Integration
  * Description: OAuth, token refresh, notification callback and bulk recategorization for Mercado Libre (multi-country).
- * Version: 0.5.0
+ * Version: 0.6.0
  * Author: M2 Base
  * License: GPL-2.0-or-later
  */
@@ -17,9 +17,6 @@ final class M2_Mercado_Libre_Integration {
     private const RECAT_OPTION = 'm2_ml_recat_queue';
     private const RECAT_BATCH_SIZE = 10;
     private const RECAT_MAX_ATTEMPTS = 5;
-    private const FREESHIP_OPTION = 'm2_ml_freeship_queue';
-    private const FREESHIP_BATCH_SIZE = 15;
-    private const FREESHIP_MAX_ATTEMPTS = 5;
     private const STATE_PREFIX = 'm2_ml_oauth_state_';
     private const TOKEN_URL = 'https://api.mercadolibre.com/oauth/token';
     private const API_URL = 'https://api.mercadolibre.com';
@@ -60,9 +57,6 @@ final class M2_Mercado_Libre_Integration {
         add_action('admin_post_m2_ml_recat_upload', [self::class, 'recat_upload']);
         add_action('admin_post_m2_ml_recat_reset', [self::class, 'recat_reset']);
         add_action('admin_post_m2_ml_recat_download', [self::class, 'recat_download']);
-        add_action('admin_post_m2_ml_freeship_start', [self::class, 'freeship_start']);
-        add_action('admin_post_m2_ml_freeship_reset', [self::class, 'freeship_reset']);
-        add_action('admin_post_m2_ml_freeship_download', [self::class, 'freeship_download']);
     }
 
     public static function activate(): void {
@@ -490,6 +484,8 @@ final class M2_Mercado_Libre_Integration {
             ]);
         }
 
+        $freeship = !empty($_POST['freeship_all']);
+
         $queue = [];
         while (($row = fgetcsv($handle)) !== false) {
             $item_id = isset($row[$item_col]) ? trim((string) $row[$item_col]) : '';
@@ -503,6 +499,7 @@ final class M2_Mercado_Libre_Integration {
                 'brand' => $brand_col !== null && isset($row[$brand_col]) ? trim((string) $row[$brand_col]) : '',
                 'part_number' => $part_number_col !== null && isset($row[$part_number_col]) ? trim((string) $row[$part_number_col]) : '',
                 'vehicle_type' => $vehicle_type_col !== null && isset($row[$vehicle_type_col]) ? trim((string) $row[$vehicle_type_col]) : '',
+                'freeship' => $freeship,
                 'status' => 'pending',
                 'http_status' => null,
                 'detail' => '',
@@ -541,11 +538,12 @@ final class M2_Mercado_Libre_Integration {
         header('Content-Disposition: attachment; filename="resultado_recategorizacion.csv"');
 
         $out = fopen('php://output', 'w');
-        fputcsv($out, ['item_id', 'category_id', 'status', 'http_status', 'detail', 'missing_attributes']);
+        fputcsv($out, ['item_id', 'category_id', 'freeship', 'status', 'http_status', 'detail', 'missing_attributes']);
         foreach ((array) $queue as $row) {
             fputcsv($out, [
                 $row['item_id'] ?? '',
                 $row['category_id'] ?? '',
+                !empty($row['freeship']) ? 'si' : '',
                 $row['status'] ?? '',
                 $row['http_status'] ?? '',
                 $row['detail'] ?? '',
@@ -671,6 +669,9 @@ final class M2_Mercado_Libre_Integration {
             if (!empty($attributes)) {
                 $body['attributes'] = $attributes;
             }
+            if (!empty($row['freeship'])) {
+                $body['shipping'] = ['free_shipping' => true];
+            }
 
             $response = wp_remote_request(self::API_URL . '/items/' . rawurlencode($row['item_id']), [
                 'method' => 'PUT',
@@ -736,198 +737,6 @@ final class M2_Mercado_Libre_Integration {
     }
 
     /* ---------------------------------------------------------------
-     * Envio gratis para todo el catalogo
-     * ------------------------------------------------------------- */
-
-    public static function freeship_start(): void {
-        if (!current_user_can('manage_options')) {
-            wp_die('No autorizado.', 'Mercado Libre', ['response' => 403]);
-        }
-        check_admin_referer('m2_ml_freeship_start');
-
-        $settings = self::settings();
-        $user_id = trim((string) $settings['user_id']);
-        $token = self::access_token();
-        if ($user_id === '' || $token === '') {
-            self::redirect_settings(['freeship_error' => rawurlencode('Conecta la cuenta de Mercado Libre primero.')]);
-        }
-
-        $item_ids = self::freeship_fetch_all_item_ids($user_id, $token);
-        if (empty($item_ids)) {
-            self::redirect_settings(['freeship_error' => rawurlencode('No se encontraron publicaciones activas en la cuenta.')]);
-        }
-
-        $queue = [];
-        foreach ($item_ids as $item_id) {
-            $queue[] = [
-                'item_id' => $item_id,
-                'status' => 'pending',
-                'http_status' => null,
-                'detail' => '',
-                'attempts' => 0,
-            ];
-        }
-        update_option(self::FREESHIP_OPTION, $queue, false);
-        self::redirect_settings(['freeship_loaded' => count($queue)]);
-    }
-
-    /**
-     * Fetches every active item id for the seller using the scan/scroll search,
-     * since the regular offset-based search caps out at 1,000 results and this
-     * catalog has 5,000+ publications.
-     */
-    private static function freeship_fetch_all_item_ids(string $user_id, string $token): array {
-        $ids = [];
-        $scroll_id = null;
-        $guard = 0;
-
-        do {
-            $args = ['search_type' => 'scan', 'limit' => 100, 'status' => 'active'];
-            if ($scroll_id) {
-                $args['scroll_id'] = $scroll_id;
-            }
-            $url = add_query_arg($args, self::API_URL . '/users/' . rawurlencode($user_id) . '/items/search');
-
-            $response = wp_remote_get($url, [
-                'timeout' => 20,
-                'headers' => ['Authorization' => 'Bearer ' . $token],
-            ]);
-
-            if (is_wp_error($response) || wp_remote_retrieve_response_code($response) !== 200) {
-                break;
-            }
-
-            $body = json_decode(wp_remote_retrieve_body($response), true);
-            $results = is_array($body) ? ($body['results'] ?? []) : [];
-            $ids = array_merge($ids, $results);
-            $scroll_id = is_array($body) ? ($body['scroll_id'] ?? null) : null;
-            $guard++;
-        } while (!empty($results) && $scroll_id && $guard < 100);
-
-        return array_values(array_unique($ids));
-    }
-
-    public static function freeship_reset(): void {
-        if (!current_user_can('manage_options')) {
-            wp_die('No autorizado.', 'Mercado Libre', ['response' => 403]);
-        }
-        check_admin_referer('m2_ml_freeship_reset');
-        delete_option(self::FREESHIP_OPTION);
-        self::redirect_settings(['freeship_reset' => '1']);
-    }
-
-    public static function freeship_download(): void {
-        if (!current_user_can('manage_options')) {
-            wp_die('No autorizado.', 'Mercado Libre', ['response' => 403]);
-        }
-        check_admin_referer('m2_ml_freeship_download');
-
-        $queue = get_option(self::FREESHIP_OPTION, []);
-        nocache_headers();
-        header('Content-Type: text/csv; charset=utf-8');
-        header('Content-Disposition: attachment; filename="resultado_envio_gratis.csv"');
-
-        $out = fopen('php://output', 'w');
-        fputcsv($out, ['item_id', 'status', 'http_status', 'detail']);
-        foreach ((array) $queue as $row) {
-            fputcsv($out, [
-                $row['item_id'] ?? '',
-                $row['status'] ?? '',
-                $row['http_status'] ?? '',
-                $row['detail'] ?? '',
-            ]);
-        }
-        fclose($out);
-        exit;
-    }
-
-    private static function freeship_process_batch(): void {
-        $queue = get_option(self::FREESHIP_OPTION, []);
-        if (empty($queue)) {
-            return;
-        }
-
-        $token = self::access_token();
-        $processed = 0;
-
-        foreach ($queue as $i => &$row) {
-            if ($processed >= self::FREESHIP_BATCH_SIZE) {
-                break;
-            }
-            if (($row['status'] ?? 'pending') !== 'pending') {
-                continue;
-            }
-
-            if ($token === '') {
-                $row['status'] = 'error';
-                $row['detail'] = 'No hay access token valido. Conecta la cuenta primero.';
-                $processed++;
-                continue;
-            }
-
-            $response = wp_remote_request(self::API_URL . '/items/' . rawurlencode($row['item_id']), [
-                'method' => 'PUT',
-                'timeout' => 20,
-                'headers' => [
-                    'Authorization' => 'Bearer ' . $token,
-                    'Content-Type' => 'application/json',
-                ],
-                'body' => wp_json_encode(['shipping' => ['free_shipping' => true]]),
-            ]);
-
-            $processed++;
-            usleep(300000);
-
-            if (is_wp_error($response)) {
-                $row['attempts'] = (int) ($row['attempts'] ?? 0) + 1;
-                $row['detail'] = $response->get_error_message();
-                if ($row['attempts'] >= self::FREESHIP_MAX_ATTEMPTS) {
-                    $row['status'] = 'error';
-                }
-                continue;
-            }
-
-            $status = wp_remote_retrieve_response_code($response);
-
-            if ($status >= 200 && $status < 300) {
-                $row['status'] = 'ok';
-                $row['http_status'] = $status;
-                $row['detail'] = 'OK';
-                continue;
-            }
-
-            if ($status === 429 || $status >= 500) {
-                $row['attempts'] = (int) ($row['attempts'] ?? 0) + 1;
-                $row['http_status'] = $status;
-                $row['detail'] = 'Rate limit o error de servidor.';
-                if ($row['attempts'] >= self::FREESHIP_MAX_ATTEMPTS) {
-                    $row['status'] = 'error';
-                }
-                continue;
-            }
-
-            $body = json_decode(wp_remote_retrieve_body($response), true);
-            $row['status'] = 'error';
-            $row['http_status'] = $status;
-            $row['detail'] = is_array($body) && !empty($body['message']) ? $body['message'] : 'Error desconocido.';
-        }
-        unset($row);
-
-        update_option(self::FREESHIP_OPTION, $queue, false);
-    }
-
-    private static function freeship_counts(array $queue): array {
-        $counts = ['total' => count($queue), 'pending' => 0, 'ok' => 0, 'error' => 0];
-        foreach ($queue as $row) {
-            $status = $row['status'] ?? 'pending';
-            if (isset($counts[$status])) {
-                $counts[$status]++;
-            }
-        }
-        return $counts;
-    }
-
-    /* ---------------------------------------------------------------
      * Pantalla de configuración
      * ------------------------------------------------------------- */
 
@@ -948,16 +757,6 @@ final class M2_Mercado_Libre_Integration {
             $recat_queue = get_option(self::RECAT_OPTION, []);
         }
         $recat_counts = self::recat_counts($recat_queue);
-
-        $freeship_queue = get_option(self::FREESHIP_OPTION, []);
-        if (!is_array($freeship_queue)) {
-            $freeship_queue = [];
-        }
-        if (!empty($freeship_queue)) {
-            self::freeship_process_batch();
-            $freeship_queue = get_option(self::FREESHIP_OPTION, []);
-        }
-        $freeship_counts = self::freeship_counts($freeship_queue);
         ?>
         <div class="wrap">
             <h1>Mercado Libre</h1>
@@ -1037,6 +836,13 @@ final class M2_Mercado_Libre_Integration {
                 <input type="hidden" name="action" value="m2_ml_recat_upload">
                 <?php wp_nonce_field('m2_ml_recat_upload'); ?>
                 <input type="file" name="recat_csv" accept=".csv" required>
+                <p>
+                    <label>
+                        <input type="checkbox" name="freeship_all" value="1">
+                        Marcar también estas publicaciones con envío gratis (<code>shipping.free_shipping = true</code>) al recategorizarlas.
+                        Solo aplica a las publicaciones de este CSV, no a todo el catálogo.
+                    </label>
+                </p>
                 <?php submit_button('Cargar CSV y comenzar', 'primary', 'submit', false); ?>
             </form>
 
@@ -1066,7 +872,7 @@ final class M2_Mercado_Libre_Integration {
                 <table class="widefat striped">
                     <thead>
                         <tr>
-                            <th>Item ID</th><th>Categoría destino</th><th>Estado</th>
+                            <th>Item ID</th><th>Categoría destino</th><th>Envío gratis</th><th>Estado</th>
                             <th>HTTP</th><th>Detalle</th><th>Atributos faltantes</th>
                         </tr>
                     </thead>
@@ -1075,6 +881,7 @@ final class M2_Mercado_Libre_Integration {
                             <tr>
                                 <td><?php echo esc_html($row['item_id'] ?? ''); ?></td>
                                 <td><?php echo esc_html($row['category_id'] ?? ''); ?></td>
+                                <td><?php echo !empty($row['freeship']) ? 'Sí' : '—'; ?></td>
                                 <td><?php echo esc_html($row['status'] ?? ''); ?></td>
                                 <td><?php echo esc_html((string) ($row['http_status'] ?? '')); ?></td>
                                 <td><?php echo esc_html($row['detail'] ?? ''); ?></td>
@@ -1090,78 +897,6 @@ final class M2_Mercado_Libre_Integration {
                 <?php endif; ?>
             <?php endif; ?>
 
-            <hr>
-            <h2>Envío gratis para todo el catálogo</h2>
-            <p>
-                Marca <strong>todas las publicaciones activas</strong> de la cuenta con envío gratis
-                (<code>shipping.free_shipping = true</code>). Esto trae automáticamente la lista completa de
-                publicaciones activas de Mercado Libre — no hace falta subir ningún archivo.
-            </p>
-
-            <?php if (isset($_GET['freeship_error'])) : ?>
-                <div class="notice notice-error"><p><?php echo esc_html(wp_unslash($_GET['freeship_error'])); ?></p></div>
-            <?php endif; ?>
-            <?php if (isset($_GET['freeship_loaded'])) : ?>
-                <div class="notice notice-success"><p><?php echo (int) $_GET['freeship_loaded']; ?> publicaciones activas cargadas en la cola.</p></div>
-            <?php endif; ?>
-            <?php if (isset($_GET['freeship_reset'])) : ?>
-                <div class="notice notice-success"><p>Cola de envío gratis reiniciada.</p></div>
-            <?php endif; ?>
-
-            <?php if (!$connected) : ?>
-                <div class="notice notice-warning"><p>Conecta la cuenta de Mercado Libre (arriba) antes de activar el envío gratis.</p></div>
-            <?php endif; ?>
-
-            <?php if ($freeship_counts['total'] === 0) : ?>
-                <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>" onsubmit="return confirm('Esto va a marcar TODAS las publicaciones activas con envío gratis. ¿Confirmas?');">
-                    <input type="hidden" name="action" value="m2_ml_freeship_start">
-                    <?php wp_nonce_field('m2_ml_freeship_start'); ?>
-                    <?php submit_button('Cargar catálogo y activar envío gratis', 'primary', 'submit', false); ?>
-                </form>
-            <?php else : ?>
-                <table class="widefat striped" style="max-width:500px;margin-bottom:1em;">
-                    <tbody>
-                        <tr><td>Total</td><td><?php echo (int) $freeship_counts['total']; ?></td></tr>
-                        <tr><td>Pendientes</td><td><?php echo (int) $freeship_counts['pending']; ?></td></tr>
-                        <tr><td>OK</td><td><?php echo (int) $freeship_counts['ok']; ?></td></tr>
-                        <tr><td>Con error</td><td><?php echo (int) $freeship_counts['error']; ?></td></tr>
-                    </tbody>
-                </table>
-
-                <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>" style="display:inline-block;margin-right:8px;">
-                    <input type="hidden" name="action" value="m2_ml_freeship_download">
-                    <?php wp_nonce_field('m2_ml_freeship_download'); ?>
-                    <?php submit_button('Descargar CSV de resultados', 'secondary', 'submit', false); ?>
-                </form>
-
-                <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>" style="display:inline-block;" onsubmit="return confirm('¿Seguro? Esto borra la cola actual (no revierte el envío gratis ya aplicado).');">
-                    <input type="hidden" name="action" value="m2_ml_freeship_reset">
-                    <?php wp_nonce_field('m2_ml_freeship_reset'); ?>
-                    <?php submit_button('Reiniciar cola', 'delete', 'submit', false); ?>
-                </form>
-
-                <h3>Últimas filas en la cola</h3>
-                <table class="widefat striped">
-                    <thead>
-                        <tr><th>Item ID</th><th>Estado</th><th>HTTP</th><th>Detalle</th></tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach (array_slice($freeship_queue, 0, 30) as $row) : ?>
-                            <tr>
-                                <td><?php echo esc_html($row['item_id'] ?? ''); ?></td>
-                                <td><?php echo esc_html($row['status'] ?? ''); ?></td>
-                                <td><?php echo esc_html((string) ($row['http_status'] ?? '')); ?></td>
-                                <td><?php echo esc_html($row['detail'] ?? ''); ?></td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
-
-                <?php if ($freeship_counts['pending'] > 0) : ?>
-                    <p><em>Procesando automáticamente en lotes de <?php echo (int) self::FREESHIP_BATCH_SIZE; ?>… esta página se recargará sola cada pocos segundos hasta terminar. No la cierres.</em></p>
-                    <script>setTimeout(function () { window.location.reload(); }, 4000);</script>
-                <?php endif; ?>
-            <?php endif; ?>
         </div>
         <?php
     }
