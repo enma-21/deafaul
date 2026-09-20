@@ -2,7 +2,7 @@
 /**
  * Plugin Name: M2 Mercado Libre Integration
  * Description: OAuth, token refresh, notification callback and bulk recategorization for Mercado Libre (multi-country).
- * Version: 0.6.0
+ * Version: 0.7.0
  * Author: M2 Base
  * License: GPL-2.0-or-later
  */
@@ -318,7 +318,7 @@ final class M2_Mercado_Libre_Integration {
         wp_send_json(['ok' => true], 200);
     }
 
-    private static function access_token(): string {
+    public static function access_token(): string {
         $settings = self::settings();
         $access_token = self::decrypt_secret((string) $settings['access_token']);
         $expires_at = (int) $settings['expires_at'];
@@ -359,6 +359,10 @@ final class M2_Mercado_Libre_Integration {
         update_option(self::OPTION, $settings, false);
 
         return (string) $body['access_token'];
+    }
+
+    public static function seller_user_id(): string {
+        return (string) self::settings()['user_id'];
     }
 
     public static function register_rest_routes(): void {

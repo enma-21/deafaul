@@ -1,0 +1,223 @@
+.m2mlc-buscador,
+.m2mlc-card,
+.m2mlc-grid {
+	--m2mlc-primario: #101828;
+	--m2mlc-primario-suave: #1d2b45;
+	--m2mlc-acento: #ff6a3d;
+	--m2mlc-fondo: #f7f8fa;
+	--m2mlc-borde: #e4e7ec;
+	--m2mlc-texto: #1d2433;
+	--m2mlc-texto-suave: #667085;
+	box-sizing: border-box;
+}
+
+.m2mlc-buscador *,
+.m2mlc-card *,
+.m2mlc-grid * {
+	box-sizing: border-box;
+}
+
+.m2mlc-buscador {
+	background:
+		radial-gradient(circle at 88% -15%, rgba(255, 106, 61, 0.35), transparent 45%),
+		radial-gradient(circle at -8% 115%, rgba(59, 130, 246, 0.25), transparent 45%),
+		repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.035) 0 2px, transparent 2px 26px),
+		linear-gradient(135deg, var(--m2mlc-primario), var(--m2mlc-primario-suave));
+	border-radius: 16px;
+	padding: 32px;
+	color: #fff;
+	position: relative;
+	overflow: hidden;
+	border: 1px solid rgba(255, 255, 255, 0.14);
+	box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.55);
+}
+
+.m2mlc-buscador__titulo {
+	margin: 0 0 20px;
+	font-size: 1.5rem;
+	font-weight: 700;
+	color: #fff;
+}
+
+.m2mlc-buscador__form {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+	gap: 14px;
+	align-items: end;
+}
+
+.m2mlc-buscador__campo--texto {
+	grid-column: 1 / -1;
+}
+
+.m2mlc-buscador__campo--rango {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 8px;
+}
+
+.m2mlc-buscador__campo label {
+	display: block;
+	font-size: 0.8rem;
+	margin-bottom: 6px;
+	color: #d0d5dd;
+}
+
+.m2mlc-buscador__campo input,
+.m2mlc-buscador__campo select {
+	width: 100%;
+	padding: 10px 12px;
+	border-radius: 8px;
+	border: 1px solid transparent;
+	font-size: 0.95rem;
+	background: #fff;
+	color: var(--m2mlc-texto);
+}
+
+.m2mlc-buscador__campo select:disabled {
+	color: #98a2b3;
+}
+
+.m2mlc-buscador__boton {
+	background: var(--m2mlc-acento);
+	color: #fff;
+	border: none;
+	padding: 12px 20px;
+	border-radius: 8px;
+	font-weight: 700;
+	font-size: 0.95rem;
+	cursor: pointer;
+	transition: filter 0.15s ease;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+}
+
+.m2mlc-buscador__boton:hover,
+.m2mlc-buscador__boton:focus-visible {
+	filter: brightness(1.08);
+}
+
+.m2mlc-buscador__boton:disabled {
+	opacity: 0.7;
+	cursor: progress;
+}
+
+.m2mlc-buscador__resultados {
+	margin-top: 28px;
+}
+
+.m2mlc-buscador__resultados[aria-busy='true'] {
+	opacity: 0.6;
+}
+
+.m2mlc-total {
+	color: var(--m2mlc-texto-suave);
+	font-size: 0.85rem;
+	margin: 0 0 12px;
+}
+
+.m2mlc-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+	gap: 20px;
+}
+
+.m2mlc-card {
+	background: #fff;
+	border: 1px solid var(--m2mlc-borde);
+	border-radius: 12px;
+	overflow: hidden;
+	transition: box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+.m2mlc-card:hover {
+	box-shadow: 0 8px 20px rgba(16, 24, 40, 0.08);
+	transform: translateY(-2px);
+}
+
+.m2mlc-card__enlace {
+	display: block;
+	color: inherit;
+	text-decoration: none;
+}
+
+.m2mlc-card__imagen {
+	position: relative;
+	aspect-ratio: 4 / 3;
+	background: var(--m2mlc-fondo);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.m2mlc-card__imagen img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.m2mlc-card__placeholder {
+	font-size: 2.5rem;
+}
+
+.m2mlc-badge {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	background: var(--m2mlc-acento);
+	color: #fff;
+	font-size: 0.7rem;
+	font-weight: 700;
+	text-transform: uppercase;
+	padding: 4px 8px;
+	border-radius: 999px;
+}
+
+.m2mlc-card__cuerpo {
+	padding: 16px;
+}
+
+.m2mlc-card__categoria {
+	font-size: 0.72rem;
+	text-transform: uppercase;
+	letter-spacing: 0.04em;
+	color: var(--m2mlc-acento);
+	font-weight: 700;
+}
+
+.m2mlc-card__titulo {
+	margin: 6px 0 4px;
+	font-size: 1.05rem;
+	font-weight: 700;
+	color: var(--m2mlc-texto);
+}
+
+.m2mlc-card__compat,
+.m2mlc-card__parte,
+.m2mlc-card__stock {
+	margin: 0 0 4px;
+	font-size: 0.85rem;
+	color: var(--m2mlc-texto-suave);
+}
+
+.m2mlc-card__precio {
+	margin: 10px 0 0;
+	font-weight: 700;
+	font-size: 1.1rem;
+	color: var(--m2mlc-primario);
+}
+
+.m2mlc-sin-resultados {
+	text-align: center;
+	padding: 40px 20px;
+	color: var(--m2mlc-texto-suave);
+}
+
+@media (max-width: 600px) {
+	.m2mlc-buscador {
+		padding: 20px;
+		border-radius: 0;
+	}
+}
