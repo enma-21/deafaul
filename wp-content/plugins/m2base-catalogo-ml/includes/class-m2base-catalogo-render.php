@@ -79,7 +79,7 @@ final class M2Base_Catalogo_ML_Render {
         return ob_get_clean();
     }
 
-    public static function resultados_html(array $filas, int $total): string {
+    public static function resultados_html(array $filas, int $total, int $pagina = 1, int $por_pagina = 24): string {
         if (empty($filas)) {
             return '<p class="m2mlc-sin-resultados">' . esc_html__('No encontramos publicaciones que coincidan con tu búsqueda. Prueba con otros filtros.', 'm2base-catalogo-ml') . '</p>';
         }
@@ -90,11 +90,18 @@ final class M2Base_Catalogo_ML_Render {
             $total
         )) . '</p>';
 
-        $html .= '<div class="m2mlc-grid">';
+        $html .= '<div class="m2mlc-grid" data-m2mlc-grid>';
         foreach ($filas as $fila) {
             $html .= self::tarjeta_html($fila);
         }
         $html .= '</div>';
+
+        if ($pagina * $por_pagina < $total) {
+            $html .= '<div class="m2mlc-cargar-mas-wrap" data-m2mlc-cargar-mas-wrap>';
+            $html .= '<button type="button" class="m2mlc-buscador__boton" data-m2mlc-cargar-mas data-pagina="' . (int) ($pagina + 1) . '">';
+            $html .= esc_html__('Cargar más', 'm2base-catalogo-ml');
+            $html .= '</button></div>';
+        }
 
         return $html;
     }

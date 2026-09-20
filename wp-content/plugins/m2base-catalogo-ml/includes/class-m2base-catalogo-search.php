@@ -13,6 +13,7 @@ final class M2Base_Catalogo_ML_Search {
 
     const NONCE_ACTION = 'm2mlc_buscador_nonce';
     const PAGE_SLUG = 'm2base-catalogo-ml-buscador';
+    const POR_PAGINA = 24;
 
     public static function init(): void {
         add_action('admin_menu', [self::class, 'admin_menu']);
@@ -142,14 +143,15 @@ final class M2Base_Catalogo_ML_Search {
             'anio_hasta' => isset($_POST['anio_hasta']) ? absint($_POST['anio_hasta']) : 0,
             'precio_min' => isset($_POST['precio_min']) ? (float) $_POST['precio_min'] : 0,
             'precio_max' => isset($_POST['precio_max']) ? (float) $_POST['precio_max'] : 0,
-            'pagina' => isset($_POST['pagina']) ? absint($_POST['pagina']) : 1,
+            'pagina' => isset($_POST['pagina']) ? max(1, absint($_POST['pagina'])) : 1,
+            'por_pagina' => self::POR_PAGINA,
         ];
 
         $filas = M2Base_Catalogo_ML_Repository::buscar($filtros);
         $total = M2Base_Catalogo_ML_Repository::contar($filtros);
 
         wp_send_json_success([
-            'html' => M2Base_Catalogo_ML_Render::resultados_html($filas, $total),
+            'html' => M2Base_Catalogo_ML_Render::resultados_html($filas, $total, $filtros['pagina'], self::POR_PAGINA),
             'total' => $total,
         ]);
     }

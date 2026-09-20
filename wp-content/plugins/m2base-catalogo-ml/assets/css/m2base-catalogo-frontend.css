@@ -118,6 +118,12 @@
 	margin: 0 0 12px;
 }
 
+.m2mlc-cargar-mas-wrap {
+	display: flex;
+	justify-content: center;
+	margin-top: 24px;
+}
+
 .m2mlc-grid {
 	display: grid;
 	grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
