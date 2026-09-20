@@ -88,7 +88,7 @@ final class M2Base_Catalogo_ML_Admin {
             <h1>Catálogo Mercado Libre</h1>
             <p>
                 Sincroniza el catálogo completo de Mercado Libre a una base de datos propia para alimentar el
-                buscador del sitio (shortcode <code>[m2base_catalogo_ml]</code>) y, más adelante, al bot de WhatsApp.
+                buscador interno (solo wp-admin, ver abajo) y, más adelante, al bot de WhatsApp.
             </p>
 
             <?php if (isset($_GET['sync_started'])) : ?>
