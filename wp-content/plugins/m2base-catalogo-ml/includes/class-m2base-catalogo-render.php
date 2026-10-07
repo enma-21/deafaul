@@ -27,6 +27,27 @@ final class M2Base_Catalogo_ML_Render {
         return trim($texto);
     }
 
+    private static function whatsapp_url(array $fila): string {
+        $numero = class_exists('M2Base_Catalogo_ML_Publico')
+            ? M2Base_Catalogo_ML_Publico::numero_whatsapp()
+            : '584245578110';
+
+        $mensaje = sprintf(
+            /* translators: %s: título de la publicación */
+            __('Hola, me interesa este repuesto: %s', 'm2base-catalogo-ml'),
+            (string) ($fila['title'] ?? '')
+        );
+        if (!empty($fila['part_number'])) {
+            $mensaje .= ' (' . sprintf(
+                /* translators: %s: número de parte */
+                __('N.º parte: %s', 'm2base-catalogo-ml'),
+                (string) $fila['part_number']
+            ) . ')';
+        }
+
+        return 'https://wa.me/' . rawurlencode($numero) . '?text=' . rawurlencode($mensaje);
+    }
+
     public static function tarjeta_html(array $fila): string {
         $condicion = ($fila['item_condition'] ?? '') === 'used' ? __('Usado', 'm2base-catalogo-ml') : __('Nuevo', 'm2base-catalogo-ml');
         $compat = self::compatibilidad_formateada($fila);
@@ -73,6 +94,9 @@ final class M2Base_Catalogo_ML_Render {
                         ?>
                     </p>
                 </div>
+            </a>
+            <a class="m2mlc-card__whatsapp" href="<?php echo esc_url(self::whatsapp_url($fila)); ?>" target="_blank" rel="noopener">
+                <?php esc_html_e('Consultar por WhatsApp', 'm2base-catalogo-ml'); ?>
             </a>
         </article>
         <?php

@@ -1,6 +1,6 @@
 === M2Base Catálogo Mercado Libre ===
 
-Sincroniza el catálogo completo de Mercado Libre a una base de datos MySQL propia (tablas nuevas, no usa post/postmeta de WordPress) y ofrece un buscador con filtros interno, solo para wp-admin. Es la base de datos previa al futuro bot de WhatsApp con IA — por ahora solo hace sincronización y búsqueda interna, sin bot y sin nada público en el sitio todavía.
+Sincroniza el catálogo completo de Mercado Libre a una base de datos MySQL propia (tablas nuevas, no usa post/postmeta de WordPress) y ofrece dos buscadores: uno interno para wp-admin, y uno público para el sitio web con botones de contacto por WhatsApp (embudo de ventas). Es también la base de datos que alimentará al futuro bot de WhatsApp con IA.
 
 Requiere que el plugin **M2 Mercado Libre Integration** esté activo y conectado (Ajustes → Mercado Libre), porque reutiliza su token de acceso.
 
@@ -18,9 +18,17 @@ Requiere que el plugin **M2 Mercado Libre Integration** esté activo y conectado
 4. "Detener / reiniciar sincronización" borra el progreso de la corrida actual, no el catálogo ya sincronizado.
 5. No hay sincronización automática (cron) todavía: los precios y el stock quedan tan actualizados como la última vez que se apretó "Iniciar sincronización".
 
-== Buscador ==
+== Buscador interno (wp-admin) ==
 
-Ajustes → Buscador catálogo ML, dentro del wp-admin — no hay shortcode ni nada visible en el sitio público todavía. Filtros disponibles: texto libre (también busca por número de parte), marca y modelo de vehículo (heurístico, ver abajo), categoría, rango de año y rango de precio. Cada resultado enlaza directamente a la publicación real en Mercado Libre.
+Ajustes → Buscador catálogo ML, dentro del wp-admin, solo para administradores. Filtros disponibles: texto libre (también busca por número de parte), marca y modelo de vehículo (heurístico, ver abajo), categoría, rango de año y rango de precio. Cada resultado enlaza directamente a la publicación real en Mercado Libre.
+
+== Buscador público (shortcode) ==
+
+Shortcode `[m2base_catalogo_ml]`, usable en cualquier Página de WordPress (crea una página nueva, ej. "Catálogo", y pega el shortcode en el contenido) o directamente en una plantilla del tema con `do_shortcode('[m2base_catalogo_ml]')`. Acepta un atributo opcional `titulo` para cambiar el encabezado, ej. `[m2base_catalogo_ml titulo="Busca tu repuesto"]`.
+
+No requiere iniciar sesión — mismos filtros que el buscador interno, mismo diseño visual (coincide con los colores del tema). Cada tarjeta de producto tiene un botón "Consultar por WhatsApp" con un mensaje prellenado mencionando ese repuesto específico, y la página muestra además un botón flotante general "Chatea con nosotros". El número de WhatsApp se configura en Apariencia → Personalizar → Contacto y redes sociales → "Número de WhatsApp para el catálogo" (por defecto usa el número actual de la empresa; se puede cambiar el día que haya un número dedicado para el bot de WhatsApp).
+
+Este botón de WhatsApp es un enlace simple tipo "clic para chatear" (wa.me) — no depende de la API de WhatsApp Business ni de que la cuenta de Meta esté aprobada, funciona con cualquier número de WhatsApp normal.
 
 == Sobre la marca/modelo de vehículo ==
 

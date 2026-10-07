@@ -156,6 +156,26 @@ function m2base_theme_customizer( $wp_customize ) {
 			)
 		);
 	}
+
+	// Número para los botones "clic para chatear" (wa.me) del catálogo público,
+	// separado del enlace libre de m2base_whatsapp porque necesita ser solo
+	// dígitos con código de país para poder armar la URL con mensaje prellenado.
+	$wp_customize->add_setting(
+		'm2base_whatsapp_numero',
+		array(
+			'default'           => '584245578110',
+			'sanitize_callback' => 'sanitize_text_field',
+		)
+	);
+	$wp_customize->add_control(
+		'm2base_whatsapp_numero',
+		array(
+			'label'       => __( 'Número de WhatsApp para el catálogo (solo dígitos, con código de país)', 'm2base-repuestos-theme' ),
+			'description' => __( 'Ejemplo: 584245578110. Se usa en los botones "Consultar por WhatsApp" del catálogo público.', 'm2base-repuestos-theme' ),
+			'section'     => 'm2base_contacto',
+			'type'        => 'text',
+		)
+	);
 }
 add_action( 'customize_register', 'm2base_theme_customizer' );
 
