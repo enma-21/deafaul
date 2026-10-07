@@ -129,8 +129,10 @@ final class M2Base_Catalogo_ML_Publico {
     /**
      * Un solo botón flotante por carga de página, aunque el shortcode se
      * use más de una vez (ej. si en el futuro se agrega a varias páginas).
+     * Pública para poder imprimirse también fuera del shortcode, ej. desde
+     * la portada del tema (front-page.php), que no usa el buscador completo.
      */
-    private static function boton_flotante_html(): string {
+    public static function boton_flotante_html(): string {
         static $ya_impreso = false;
         if ($ya_impreso) {
             return '';

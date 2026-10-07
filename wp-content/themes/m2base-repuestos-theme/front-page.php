@@ -176,4 +176,9 @@ get_header();
 </main>
 
 <?php
+if ( class_exists( 'M2Base_Catalogo_ML_Publico' ) ) {
+	wp_enqueue_style( 'm2mlc-frontend', M2MLC_URL . 'assets/css/m2base-catalogo-frontend.css', array(), M2MLC_VERSION );
+	echo M2Base_Catalogo_ML_Publico::boton_flotante_html();
+}
+
 get_footer();
