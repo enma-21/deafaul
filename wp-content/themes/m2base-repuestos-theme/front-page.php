@@ -118,8 +118,6 @@ get_header();
 			?>
 			<section class="m2base-catalogo-ml">
 				<div class="m2base-contenedor">
-					<h2 class="m2base-seccion-titulo"><?php esc_html_e( 'Y eso no es todo: miles de repuestos más', 'm2base-repuestos-theme' ); ?></h2>
-					<p class="m2base-catalogo-ml__intro"><?php esc_html_e( 'Nuestro catálogo completo tiene miles de piezas adicionales. Búscalo por marca, modelo, año o categoría.', 'm2base-repuestos-theme' ); ?></p>
 					<div class="m2mlc-grid">
 						<?php foreach ( $destacados_ml as $item_ml ) : ?>
 							<?php echo M2Base_Catalogo_ML_Render::tarjeta_html( $item_ml, true ); ?>
