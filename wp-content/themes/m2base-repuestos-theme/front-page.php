@@ -19,16 +19,6 @@ get_header();
 		</div>
 	</section>
 
-	<section class="m2base-seccion-buscador">
-		<div class="m2base-contenedor">
-			<?php if ( m2base_theme_plugin_activo() ) : ?>
-				<?php echo do_shortcode( '[m2base_buscador_repuestos titulo=""]' ); ?>
-			<?php else : ?>
-				<p class="m2base-aviso"><?php esc_html_e( 'Activa el plugin M2Base Repuestos para mostrar el buscador aquí.', 'm2base-repuestos-theme' ); ?></p>
-			<?php endif; ?>
-		</div>
-	</section>
-
 	<section class="m2base-cifras">
 		<div class="m2base-contenedor m2base-cifras__grid">
 			<a class="m2base-reputacion" href="https://www.mercadolibre.com.ve/pagina/masterbrake1937" target="_blank" rel="noopener">
@@ -111,52 +101,17 @@ get_header();
 		</div>
 	</section>
 
-	<?php if ( m2base_theme_plugin_activo() ) :
-		$categorias = get_terms(
-			array(
-				'taxonomy'   => 'categoria_repuesto',
-				'hide_empty' => true,
-				'number'     => 6,
-			)
-		);
-		if ( ! is_wp_error( $categorias ) && ! empty( $categorias ) ) :
-			?>
-			<section class="m2base-categorias">
-				<div class="m2base-contenedor">
-					<h2 class="m2base-seccion-titulo"><?php esc_html_e( 'Compra por categoría', 'm2base-repuestos-theme' ); ?></h2>
-					<div class="m2base-categorias__grid">
-						<?php foreach ( $categorias as $categoria ) : ?>
-							<a class="m2base-categorias__item" href="<?php echo esc_url( get_term_link( $categoria ) ); ?>">
-								<?php echo m2base_theme_icon( m2base_theme_icono_categoria( $categoria->name ), 'm2base-categorias__icono' ); ?>
-								<span><?php echo esc_html( $categoria->name ); ?></span>
-							</a>
-						<?php endforeach; ?>
-					</div>
-				</div>
-			</section>
-		<?php endif; ?>
+	<section class="m2base-seccion-buscador m2base-seccion-buscador--delgada">
+		<div class="m2base-contenedor">
+			<?php if ( m2base_theme_plugin_activo() ) : ?>
+				<?php echo do_shortcode( '[m2base_buscador_repuestos titulo=""]' ); ?>
+			<?php else : ?>
+				<p class="m2base-aviso"><?php esc_html_e( 'Activa el plugin M2Base Repuestos para mostrar el buscador aquí.', 'm2base-repuestos-theme' ); ?></p>
+			<?php endif; ?>
+		</div>
+	</section>
 
-		<?php
-		$destacados = new WP_Query(
-			array(
-				'post_type'      => 'repuesto',
-				'posts_per_page' => 8,
-				'post_status'    => 'publish',
-			)
-		);
-		if ( $destacados->have_posts() ) :
-			?>
-			<section class="m2base-destacados">
-				<div class="m2base-contenedor">
-					<h2 class="m2base-seccion-titulo"><?php esc_html_e( 'Últimos repuestos agregados', 'm2base-repuestos-theme' ); ?></h2>
-					<?php echo M2Base_Repuestos_Render::resultados_html( $destacados ); ?>
-				</div>
-			</section>
-			<?php
-		endif;
-	endif;
-
-	if ( class_exists( 'M2Base_Catalogo_ML_Repository' ) ) :
+	<?php if ( class_exists( 'M2Base_Catalogo_ML_Repository' ) ) :
 		$destacados_ml = M2Base_Catalogo_ML_Repository::destacados( 8 );
 		if ( ! empty( $destacados_ml ) ) :
 			wp_enqueue_style( 'm2mlc-frontend', M2MLC_URL . 'assets/css/m2base-catalogo-frontend.css', array(), M2MLC_VERSION );

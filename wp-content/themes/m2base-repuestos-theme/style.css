@@ -304,6 +304,25 @@ a {
 	padding: 40px 0;
 }
 
+/*
+ * Franja delgada: el buscador original de m2base-repuestos (shortcode
+ * [m2base_buscador_repuestos]) trae su propio fondo degradado grande y
+ * mucho padding, pensado para ser lo primero que se ve en la portada.
+ * Reutilizado más abajo en la página (sobre el catálogo completo), se ve
+ * recargado — estas reglas lo comprimen solo en ese contexto, sin tocar
+ * el CSS del plugin ni afectar otros usos del mismo shortcode.
+ */
+.m2base-seccion-buscador--delgada {
+	padding: 24px 0;
+}
+
+.m2base-seccion-buscador--delgada .m2base-buscador {
+	padding: 20px 24px;
+	border-radius: 10px;
+	background: linear-gradient(120deg, var(--m2base-primario), var(--m2base-primario-suave));
+	box-shadow: none;
+}
+
 /* Secciones genéricas */
 .m2base-seccion-titulo {
 	font-size: 1.5rem;

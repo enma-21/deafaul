@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'M2BASE_THEME_VERSION', '1.6.3' );
+define( 'M2BASE_THEME_VERSION', '1.6.4' );
 
 function m2base_theme_setup() {
 	add_theme_support( 'title-tag' );
