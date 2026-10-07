@@ -51,6 +51,13 @@ final class M2Base_Catalogo_ML_Publico {
             [
                 'ajaxUrl' => admin_url('admin-ajax.php'),
                 'nonce' => wp_create_nonce(self::NONCE_ACTION),
+                // Si un administrador logueado visita esta página pública,
+                // WordPress igual despacha la búsqueda al handler admin-gated
+                // (wp_ajax_{action} se dispara para cualquier usuario logueado,
+                // sin importar qué página hizo la llamada). Esta bandera le
+                // avisa a ese handler que use enlaces internos igual, en vez
+                // de los de Mercado Libre. Ver class-m2base-catalogo-search.php.
+                'publico' => '1',
                 'i18n' => [
                     'buscando' => __('Buscando…', 'm2base-catalogo-ml'),
                     'error' => __('Ocurrió un error al buscar. Intenta nuevamente.', 'm2base-catalogo-ml'),

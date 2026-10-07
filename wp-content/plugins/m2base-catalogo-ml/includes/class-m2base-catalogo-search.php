@@ -150,8 +150,15 @@ final class M2Base_Catalogo_ML_Search {
         $filas = M2Base_Catalogo_ML_Repository::buscar($filtros);
         $total = M2Base_Catalogo_ML_Repository::contar($filtros);
 
+        // Un administrador logueado que visite la página pública del catálogo
+        // también dispara este handler (WordPress despacha wp_ajax_{action} a
+        // cualquier usuario logueado, sin importar la página de origen), así
+        // que esta bandera —enviada solo por el buscador público— evita que
+        // en ese caso los resultados enlacen a Mercado Libre.
+        $enlace_interno = isset($_POST['publico']) && $_POST['publico'] === '1';
+
         wp_send_json_success([
-            'html' => M2Base_Catalogo_ML_Render::resultados_html($filas, $total, $filtros['pagina'], self::POR_PAGINA),
+            'html' => M2Base_Catalogo_ML_Render::resultados_html($filas, $total, $filtros['pagina'], self::POR_PAGINA, $enlace_interno),
             'total' => $total,
         ]);
     }

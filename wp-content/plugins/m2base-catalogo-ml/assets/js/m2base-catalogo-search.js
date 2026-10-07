@@ -14,6 +14,9 @@
 
 		formData.append( 'action', 'm2mlc_buscar' );
 		formData.append( 'nonce', window.M2MLCatalogo.nonce );
+		if ( window.M2MLCatalogo.publico ) {
+			formData.append( 'publico', window.M2MLCatalogo.publico );
+		}
 		resultados.setAttribute( 'aria-busy', 'true' );
 
 		return fetch( window.M2MLCatalogo.ajaxUrl, {
