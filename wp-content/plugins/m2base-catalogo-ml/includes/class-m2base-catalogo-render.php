@@ -27,7 +27,7 @@ final class M2Base_Catalogo_ML_Render {
         return trim($texto);
     }
 
-    private static function whatsapp_url(array $fila): string {
+    public static function whatsapp_url(array $fila): string {
         $numero = class_exists('M2Base_Catalogo_ML_Publico')
             ? M2Base_Catalogo_ML_Publico::numero_whatsapp()
             : '584245578110';
@@ -48,14 +48,31 @@ final class M2Base_Catalogo_ML_Render {
         return 'https://wa.me/' . rawurlencode($numero) . '?text=' . rawurlencode($mensaje);
     }
 
-    public static function tarjeta_html(array $fila): string {
+    /**
+     * $enlace_interno = true hace que la tarjeta lleve a nuestra propia
+     * página de detalle (M2Base_Catalogo_ML_Item) en vez de a la
+     * publicación real en Mercado Libre. Se usa en el catálogo público y en
+     * las recomendaciones, para no mandar visitantes a Mercado Libre (donde
+     * podrían verse ofertas de la competencia); el buscador interno de
+     * wp-admin sigue enlazando directo a Mercado Libre por defecto, útil
+     * para que el personal revise la publicación real.
+     */
+    public static function tarjeta_html(array $fila, bool $enlace_interno = false): string {
         $condicion = ($fila['item_condition'] ?? '') === 'used' ? __('Usado', 'm2base-catalogo-ml') : __('Nuevo', 'm2base-catalogo-ml');
         $compat = self::compatibilidad_formateada($fila);
+
+        if ($enlace_interno && class_exists('M2Base_Catalogo_ML_Item')) {
+            $enlace = M2Base_Catalogo_ML_Item::url((string) ($fila['item_id'] ?? ''), (string) ($fila['title'] ?? ''));
+            $enlace_target = '';
+        } else {
+            $enlace = $fila['permalink'] ?? '#';
+            $enlace_target = ' target="_blank" rel="noopener"';
+        }
 
         ob_start();
         ?>
         <article class="m2mlc-card">
-            <a class="m2mlc-card__enlace" href="<?php echo esc_url($fila['permalink'] ?? '#'); ?>" target="_blank" rel="noopener">
+            <a class="m2mlc-card__enlace" href="<?php echo esc_url($enlace); ?>"<?php echo $enlace_target; ?>>
                 <div class="m2mlc-card__imagen">
                     <?php if (!empty($fila['thumbnail'])) : ?>
                         <img src="<?php echo esc_url($fila['thumbnail']); ?>" alt="<?php echo esc_attr($fila['title'] ?? ''); ?>" loading="lazy">
@@ -103,7 +120,7 @@ final class M2Base_Catalogo_ML_Render {
         return ob_get_clean();
     }
 
-    public static function resultados_html(array $filas, int $total, int $pagina = 1, int $por_pagina = 24): string {
+    public static function resultados_html(array $filas, int $total, int $pagina = 1, int $por_pagina = 24, bool $enlace_interno = false): string {
         if (empty($filas)) {
             return '<p class="m2mlc-sin-resultados">' . esc_html__('No encontramos publicaciones que coincidan con tu búsqueda. Prueba con otros filtros.', 'm2base-catalogo-ml') . '</p>';
         }
@@ -116,7 +133,7 @@ final class M2Base_Catalogo_ML_Render {
 
         $html .= '<div class="m2mlc-grid" data-m2mlc-grid>';
         foreach ($filas as $fila) {
-            $html .= self::tarjeta_html($fila);
+            $html .= self::tarjeta_html($fila, $enlace_interno);
         }
         $html .= '</div>';
 

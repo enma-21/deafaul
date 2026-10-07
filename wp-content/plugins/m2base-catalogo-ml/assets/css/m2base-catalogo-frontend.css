@@ -1,6 +1,7 @@
 .m2mlc-buscador,
 .m2mlc-card,
-.m2mlc-grid {
+.m2mlc-grid,
+.m2mlc-detalle {
 	--m2mlc-primario: #101828;
 	--m2mlc-primario-suave: #1d2b45;
 	--m2mlc-acento: #ff6a3d;
@@ -13,7 +14,8 @@
 
 .m2mlc-buscador *,
 .m2mlc-card *,
-.m2mlc-grid * {
+.m2mlc-grid *,
+.m2mlc-detalle * {
 	box-sizing: border-box;
 }
 
@@ -278,6 +280,119 @@
 	color: #fff;
 }
 
+.m2mlc-detalle-pagina {
+	padding: 32px 20px 64px;
+}
+
+.m2mlc-detalle {
+	max-width: 1100px;
+	margin: 0 auto;
+	color: var(--m2mlc-texto);
+	font-family: inherit;
+}
+
+.m2mlc-detalle__migas {
+	font-size: 0.85rem;
+	color: var(--m2mlc-texto-suave);
+	margin-bottom: 20px;
+}
+
+.m2mlc-detalle__migas a {
+	color: var(--m2mlc-texto-suave);
+	text-decoration: none;
+}
+
+.m2mlc-detalle__migas a:hover {
+	text-decoration: underline;
+}
+
+.m2mlc-detalle__migas span[aria-hidden] {
+	margin: 0 6px;
+}
+
+.m2mlc-detalle__grid {
+	display: grid;
+	grid-template-columns: minmax(0, 420px) 1fr;
+	gap: 40px;
+	align-items: start;
+}
+
+.m2mlc-detalle__imagen {
+	position: relative;
+	aspect-ratio: 4 / 3;
+	background: var(--m2mlc-fondo);
+	border: 1px solid var(--m2mlc-borde);
+	border-radius: 12px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	overflow: hidden;
+}
+
+.m2mlc-detalle__imagen img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.m2mlc-detalle__imagen .m2mlc-card__placeholder {
+	font-size: 4rem;
+}
+
+.m2mlc-detalle__info h1 {
+	margin: 8px 0 16px;
+	font-size: 1.6rem;
+	line-height: 1.3;
+	color: var(--m2mlc-primario);
+}
+
+.m2mlc-detalle__precio {
+	font-size: 1.8rem;
+	font-weight: 700;
+	color: var(--m2mlc-primario);
+	margin: 0 0 20px;
+}
+
+.m2mlc-detalle__ficha {
+	list-style: none;
+	margin: 0 0 24px;
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	font-size: 0.95rem;
+}
+
+.m2mlc-detalle__ficha strong {
+	color: var(--m2mlc-texto);
+}
+
+.m2mlc-detalle__whatsapp {
+	display: inline-flex;
+	width: auto;
+	margin: 0;
+	padding: 14px 28px;
+	font-size: 1rem;
+}
+
+.m2mlc-relacionados {
+	margin-top: 56px;
+	padding-top: 40px;
+	border-top: 1px solid var(--m2mlc-borde);
+}
+
+.m2mlc-relacionados h2 {
+	font-size: 1.3rem;
+	color: var(--m2mlc-primario);
+	margin: 0 0 20px;
+}
+
+@media (max-width: 760px) {
+	.m2mlc-detalle__grid {
+		grid-template-columns: 1fr;
+	}
+}
+
 @media (max-width: 600px) {
 	.m2mlc-buscador {
 		padding: 20px;
@@ -286,5 +401,9 @@
 
 	.m2mlc-whatsapp-flotante span {
 		display: none;
+	}
+
+	.m2mlc-detalle-pagina {
+		padding: 20px 16px 48px;
 	}
 }

@@ -165,7 +165,7 @@ final class M2Base_Catalogo_ML_Publico {
         $total = M2Base_Catalogo_ML_Repository::contar($filtros);
 
         wp_send_json_success([
-            'html' => M2Base_Catalogo_ML_Render::resultados_html($filas, $total, $filtros['pagina'], self::POR_PAGINA),
+            'html' => M2Base_Catalogo_ML_Render::resultados_html($filas, $total, $filtros['pagina'], self::POR_PAGINA, true),
             'total' => $total,
         ]);
     }

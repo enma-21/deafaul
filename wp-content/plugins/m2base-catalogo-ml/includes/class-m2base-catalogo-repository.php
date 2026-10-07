@@ -60,6 +60,84 @@ final class M2Base_Catalogo_ML_Repository {
         }
     }
 
+    public static function obtener_por_item_id(string $item_id): ?array {
+        global $wpdb;
+        $table = M2Base_Catalogo_ML_Schema::table_catalogo();
+        $fila = $wpdb->get_row(
+            $wpdb->prepare(
+                "SELECT * FROM `{$table}` WHERE item_id = %s AND status = 'active' AND available_quantity > 0",
+                $item_id
+            ),
+            ARRAY_A
+        );
+        return $fila ?: null;
+    }
+
+    /**
+     * Repuestos relacionados con $fila para la sección "También te puede
+     * interesar" de la página de detalle. Heurística en niveles, del más
+     * específico al más general, acumulando resultados sin duplicar hasta
+     * llegar a $limite: primero misma categoría + misma marca y modelo de
+     * vehículo, luego misma categoría + misma marca, y por último solo
+     * misma categoría.
+     */
+    public static function relacionados(array $fila, int $limite = 4): array {
+        global $wpdb;
+        $table = M2Base_Catalogo_ML_Schema::table_catalogo();
+
+        $item_id = (string) ($fila['item_id'] ?? '');
+        $category_id = (string) ($fila['category_id'] ?? '');
+        if ($category_id === '') {
+            return [];
+        }
+
+        $marca = (string) ($fila['vehicle_brand'] ?? '');
+        $modelo = (string) ($fila['vehicle_model'] ?? '');
+
+        $niveles = [];
+        if ($marca !== '' && $modelo !== '') {
+            $niveles[] = ['vehicle_brand' => $marca, 'vehicle_model' => $modelo];
+        }
+        if ($marca !== '') {
+            $niveles[] = ['vehicle_brand' => $marca];
+        }
+        $niveles[] = [];
+
+        $encontrados = [];
+        $vistos = [$item_id => true];
+
+        foreach ($niveles as $extra) {
+            if (count($encontrados) >= $limite) {
+                break;
+            }
+
+            $condiciones = ["status = 'active'", 'available_quantity > 0', 'category_id = %s', 'item_id != %s'];
+            $params = [$category_id, $item_id];
+            foreach ($extra as $campo => $valor) {
+                $condiciones[] = "{$campo} = %s";
+                $params[] = $valor;
+            }
+
+            $params[] = ($limite - count($encontrados)) * 3;
+            $sql = "SELECT * FROM `{$table}` WHERE " . implode(' AND ', $condiciones) . ' ORDER BY sold_quantity DESC, title ASC LIMIT %d';
+            $candidatas = $wpdb->get_results($wpdb->prepare($sql, $params), ARRAY_A) ?: [];
+
+            foreach ($candidatas as $candidata) {
+                if (count($encontrados) >= $limite) {
+                    break;
+                }
+                $cid = (string) $candidata['item_id'];
+                if (isset($vistos[$cid])) {
+                    continue;
+                }
+                $vistos[$cid] = true;
+                $encontrados[] = $candidata;
+            }
+        }
+
+        return $encontrados;
+    }
+
     public static function marcar_inactivos_antes_de(string $started_at_gmt): int {
         global $wpdb;
         $table = M2Base_Catalogo_ML_Schema::table_catalogo();

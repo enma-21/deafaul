@@ -26,9 +26,13 @@ Ajustes → Buscador catálogo ML, dentro del wp-admin, solo para administradore
 
 Shortcode `[m2base_catalogo_ml]`, usable en cualquier Página de WordPress (crea una página nueva, ej. "Catálogo", y pega el shortcode en el contenido) o directamente en una plantilla del tema con `do_shortcode('[m2base_catalogo_ml]')`. Acepta un atributo opcional `titulo` para cambiar el encabezado, ej. `[m2base_catalogo_ml titulo="Busca tu repuesto"]`.
 
-No requiere iniciar sesión — mismos filtros que el buscador interno, mismo diseño visual (coincide con los colores del tema). Cada tarjeta de producto tiene un botón "Consultar por WhatsApp" con un mensaje prellenado mencionando ese repuesto específico, y la página muestra además un botón flotante general "Chatea con nosotros". El número de WhatsApp se configura en Apariencia → Personalizar → Contacto y redes sociales → "Número de WhatsApp para el catálogo" (por defecto usa el número actual de la empresa; se puede cambiar el día que haya un número dedicado para el bot de WhatsApp).
+No requiere iniciar sesión — mismos filtros que el buscador interno, mismo diseño visual (coincide con los colores del tema). Cada tarjeta de producto enlaza a su propia página de detalle en el sitio (ver abajo), y la página muestra además un botón flotante general "Chatea con nosotros". El número de WhatsApp se configura en Apariencia → Personalizar → Contacto y redes sociales → "Número de WhatsApp para el catálogo" (por defecto usa el número actual de la empresa; se puede cambiar el día que haya un número dedicado para el bot de WhatsApp).
 
 Este botón de WhatsApp es un enlace simple tipo "clic para chatear" (wa.me) — no depende de la API de WhatsApp Business ni de que la cuenta de Meta esté aprobada, funciona con cualquier número de WhatsApp normal.
+
+== Página de detalle por repuesto ==
+
+Cada publicación tiene su propia página en el sitio (`/repuesto-ml/{id}-{slug}/`, generada automáticamente, no hay que crear nada a mano) con foto, precio, ficha técnica, botón de WhatsApp, y una sección "También te puede interesar" con repuestos relacionados calculados automáticamente (misma categoría, priorizando los que además comparten marca/modelo de vehículo compatible). Esto es a propósito para que el tráfico de publicidad o redes sociales se quede dentro del sitio — ningún enlace de las tarjetas públicas ni de las recomendaciones lleva a Mercado Libre (eso podría exponer al visitante a ofertas de la competencia); el buscador interno de wp-admin sí sigue enlazando directo a Mercado Libre, para que el personal pueda revisar la publicación real.
 
 == Sobre la marca/modelo de vehículo ==
 
