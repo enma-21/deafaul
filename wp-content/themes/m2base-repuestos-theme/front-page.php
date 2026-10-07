@@ -31,15 +31,33 @@ get_header();
 
 	<section class="m2base-cifras">
 		<div class="m2base-contenedor m2base-cifras__grid">
-			<?php foreach ( m2base_theme_numeros_confianza() as $cifra ) :
-				$etiqueta_html = '<span class="m2base-cifras__numero">' . esc_html( $cifra['numero'] ) . '</span>'
-					. '<span class="m2base-cifras__etiqueta">' . esc_html( $cifra['etiqueta'] ) . '</span>';
+			<a class="m2base-reputacion" href="https://www.mercadolibre.com.ve/pagina/masterbrake1937" target="_blank" rel="noopener">
+				<span class="m2base-reputacion__etiqueta"><?php esc_html_e( 'Reputación', 'm2base-repuestos-theme' ); ?></span>
+				<span class="m2base-reputacion__titulo">
+					<?php esc_html_e( 'MercadoLíder Platinum', 'm2base-repuestos-theme' ); ?>
+					<svg class="m2base-reputacion__check" viewBox="0 0 24 24" aria-hidden="true">
+						<circle cx="12" cy="12" r="11" fill="#00a650" />
+						<path d="M7 12.5l3 3 7-7" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+					</svg>
+				</span>
+				<span class="m2base-reputacion__medidor" aria-hidden="true">
+					<span class="m2base-reputacion__segmento m2base-reputacion__segmento--1"></span>
+					<span class="m2base-reputacion__segmento m2base-reputacion__segmento--2"></span>
+					<span class="m2base-reputacion__segmento m2base-reputacion__segmento--3"></span>
+					<span class="m2base-reputacion__segmento m2base-reputacion__segmento--4"></span>
+				</span>
+				<span class="m2base-reputacion__enlace"><?php esc_html_e( 'Ir a Reputación', 'm2base-repuestos-theme' ); ?> ›</span>
+			</a>
+			<?php
+			$productos_disponibles = class_exists( 'M2Base_Catalogo_ML_Repository' )
+				? '+' . number_format_i18n( M2Base_Catalogo_ML_Repository::contar_activos() )
+				: null;
+			foreach ( m2base_theme_numeros_confianza( $productos_disponibles ) as $cifra ) :
 				?>
-				<?php if ( ! empty( $cifra['url'] ) ) : ?>
-					<a class="m2base-cifras__item m2base-cifras__item--enlace" href="<?php echo esc_url( $cifra['url'] ); ?>" target="_blank" rel="noopener"><?php echo $etiqueta_html; ?></a>
-				<?php else : ?>
-					<div class="m2base-cifras__item"><?php echo $etiqueta_html; ?></div>
-				<?php endif; ?>
+				<div class="m2base-cifras__item">
+					<span class="m2base-cifras__numero"><?php echo esc_html( $cifra['numero'] ); ?></span>
+					<span class="m2base-cifras__etiqueta"><?php echo esc_html( $cifra['etiqueta'] ); ?></span>
+				</div>
 			<?php endforeach; ?>
 		</div>
 	</section>

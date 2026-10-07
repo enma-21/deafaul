@@ -323,31 +323,19 @@ a {
 }
 
 .m2base-cifras__grid {
-	display: flex;
-	justify-content: center;
-	flex-wrap: wrap;
-	text-align: center;
+	display: grid;
+	grid-template-columns: minmax(220px, 1.3fr) repeat(3, 1fr);
+	gap: 24px;
+	align-items: stretch;
 }
 
 .m2base-cifras__item {
-	padding: 0 40px;
-	border-right: 1px solid var(--m2base-borde);
-}
-
-.m2base-cifras__item:last-child {
-	border-right: none;
-}
-
-.m2base-cifras__item--enlace {
-	display: block;
-	text-decoration: none;
-	border-radius: 8px;
-	transition: background 0.15s ease;
-}
-
-.m2base-cifras__item--enlace:hover,
-.m2base-cifras__item--enlace:focus-visible {
-	background: var(--m2base-superficie);
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	padding: 12px 8px;
 }
 
 .m2base-cifras__numero {
@@ -364,16 +352,83 @@ a {
 	margin-top: 4px;
 }
 
-@media (max-width: 600px) {
-	.m2base-cifras__item {
-		padding: 12px 20px;
-		border-right: none;
-		border-bottom: 1px solid var(--m2base-borde);
-		flex: 1 1 100%;
-	}
+.m2base-reputacion {
+	display: block;
+	background: #fff;
+	border: 1px solid var(--m2base-borde);
+	border-radius: 12px;
+	padding: 18px 20px;
+	text-decoration: none;
+	color: var(--m2base-texto);
+	box-shadow: 0 4px 14px rgba(16, 24, 40, 0.06);
+	transition: box-shadow 0.15s ease, transform 0.15s ease;
+}
 
-	.m2base-cifras__item:last-child {
-		border-bottom: none;
+.m2base-reputacion:hover,
+.m2base-reputacion:focus-visible {
+	box-shadow: 0 10px 24px rgba(16, 24, 40, 0.1);
+	transform: translateY(-2px);
+}
+
+.m2base-reputacion__etiqueta {
+	display: block;
+	font-size: 0.75rem;
+	color: var(--m2base-texto-suave);
+	margin-bottom: 6px;
+}
+
+.m2base-reputacion__titulo {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	font-weight: 800;
+	font-size: 1.05rem;
+	color: var(--m2base-texto);
+	margin-bottom: 14px;
+}
+
+.m2base-reputacion__check {
+	width: 18px;
+	height: 18px;
+	flex-shrink: 0;
+}
+
+.m2base-reputacion__medidor {
+	display: flex;
+	gap: 3px;
+	height: 6px;
+	margin-bottom: 12px;
+}
+
+.m2base-reputacion__segmento {
+	flex: 1;
+	border-radius: 999px;
+	background: #f6d7dc;
+}
+
+.m2base-reputacion__segmento--2 {
+	background: #fbe7ea;
+}
+
+.m2base-reputacion__segmento--3 {
+	background: #faf0c8;
+}
+
+.m2base-reputacion__segmento--4 {
+	background: #00a650;
+	flex: 1.6;
+}
+
+.m2base-reputacion__enlace {
+	display: block;
+	font-size: 0.8rem;
+	font-weight: 700;
+	color: var(--m2base-acento);
+}
+
+@media (max-width: 760px) {
+	.m2base-cifras__grid {
+		grid-template-columns: 1fr;
 	}
 }
 

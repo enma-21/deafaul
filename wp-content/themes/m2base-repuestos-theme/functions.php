@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'M2BASE_THEME_VERSION', '1.6.2' );
+define( 'M2BASE_THEME_VERSION', '1.6.3' );
 
 function m2base_theme_setup() {
 	add_theme_support( 'title-tag' );
@@ -196,19 +196,17 @@ function m2base_theme_marcas_logos() {
  * Cifras de confianza mostradas en la portada. Son valores de ejemplo:
  * ajústalos aquí cuando el cliente confirme sus números reales.
  */
-function m2base_theme_numeros_confianza() {
+/**
+ * $productos_disponibles: cifra real de repuestos activos en el catálogo ML,
+ * calculada en front-page.php (no aquí, para no acoplar esta función de
+ * datos genéricos del tema a una clase de un plugin específico). Si viene
+ * null (plugin inactivo), se usa un valor de respaldo fijo.
+ */
+function m2base_theme_numeros_confianza( $productos_disponibles = null ) {
 	return array(
-		array( 'numero' => '+500', 'etiqueta' => __( 'Repuestos disponibles', 'm2base-repuestos-theme' ) ),
-		array( 'numero' => '+10', 'etiqueta' => __( 'Años de experiencia', 'm2base-repuestos-theme' ) ),
 		array( 'numero' => '100%', 'etiqueta' => __( 'Envíos a todo el país', 'm2base-repuestos-theme' ) ),
-		array(
-			'numero'   => __( 'Platinum', 'm2base-repuestos-theme' ),
-			'etiqueta' => __( 'Reputación MercadoLíder en Mercado Libre', 'm2base-repuestos-theme' ),
-			// El nivel más alto de reputación que otorga Mercado Libre a un
-			// vendedor; enlaza a su perfil público para que cualquiera pueda
-			// verificarlo directamente ahí.
-			'url'      => 'https://www.mercadolibre.com.ve/pagina/masterbrake1937',
-		),
+		array( 'numero' => $productos_disponibles ?? '+500', 'etiqueta' => __( 'Repuestos disponibles', 'm2base-repuestos-theme' ) ),
+		array( 'numero' => '+10', 'etiqueta' => __( 'Años de experiencia', 'm2base-repuestos-theme' ) ),
 	);
 }
 
