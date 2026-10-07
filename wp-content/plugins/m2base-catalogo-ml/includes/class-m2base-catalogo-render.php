@@ -112,9 +112,6 @@ final class M2Base_Catalogo_ML_Render {
                     </p>
                 </div>
             </a>
-            <a class="m2mlc-card__whatsapp" href="<?php echo esc_url(self::whatsapp_url($fila)); ?>" target="_blank" rel="noopener">
-                <?php esc_html_e('Consultar por WhatsApp', 'm2base-catalogo-ml'); ?>
-            </a>
         </article>
         <?php
         return ob_get_clean();
