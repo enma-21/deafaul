@@ -338,6 +338,18 @@ a {
 	border-right: none;
 }
 
+.m2base-cifras__item--enlace {
+	display: block;
+	text-decoration: none;
+	border-radius: 8px;
+	transition: background 0.15s ease;
+}
+
+.m2base-cifras__item--enlace:hover,
+.m2base-cifras__item--enlace:focus-visible {
+	background: var(--m2base-superficie);
+}
+
 .m2base-cifras__numero {
 	display: block;
 	font-size: clamp(1.8rem, 3vw, 2.4rem);

@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'M2BASE_THEME_VERSION', '1.6.1' );
+define( 'M2BASE_THEME_VERSION', '1.6.2' );
 
 function m2base_theme_setup() {
 	add_theme_support( 'title-tag' );
@@ -201,6 +201,14 @@ function m2base_theme_numeros_confianza() {
 		array( 'numero' => '+500', 'etiqueta' => __( 'Repuestos disponibles', 'm2base-repuestos-theme' ) ),
 		array( 'numero' => '+10', 'etiqueta' => __( 'Años de experiencia', 'm2base-repuestos-theme' ) ),
 		array( 'numero' => '100%', 'etiqueta' => __( 'Envíos a todo el país', 'm2base-repuestos-theme' ) ),
+		array(
+			'numero'   => __( 'Platinum', 'm2base-repuestos-theme' ),
+			'etiqueta' => __( 'Reputación MercadoLíder en Mercado Libre', 'm2base-repuestos-theme' ),
+			// El nivel más alto de reputación que otorga Mercado Libre a un
+			// vendedor; enlaza a su perfil público para que cualquiera pueda
+			// verificarlo directamente ahí.
+			'url'      => 'https://www.mercadolibre.com.ve/pagina/masterbrake1937',
+		),
 	);
 }
 

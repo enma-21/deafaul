@@ -31,11 +31,15 @@ get_header();
 
 	<section class="m2base-cifras">
 		<div class="m2base-contenedor m2base-cifras__grid">
-			<?php foreach ( m2base_theme_numeros_confianza() as $cifra ) : ?>
-				<div class="m2base-cifras__item">
-					<span class="m2base-cifras__numero"><?php echo esc_html( $cifra['numero'] ); ?></span>
-					<span class="m2base-cifras__etiqueta"><?php echo esc_html( $cifra['etiqueta'] ); ?></span>
-				</div>
+			<?php foreach ( m2base_theme_numeros_confianza() as $cifra ) :
+				$etiqueta_html = '<span class="m2base-cifras__numero">' . esc_html( $cifra['numero'] ) . '</span>'
+					. '<span class="m2base-cifras__etiqueta">' . esc_html( $cifra['etiqueta'] ) . '</span>';
+				?>
+				<?php if ( ! empty( $cifra['url'] ) ) : ?>
+					<a class="m2base-cifras__item m2base-cifras__item--enlace" href="<?php echo esc_url( $cifra['url'] ); ?>" target="_blank" rel="noopener"><?php echo $etiqueta_html; ?></a>
+				<?php else : ?>
+					<div class="m2base-cifras__item"><?php echo $etiqueta_html; ?></div>
+				<?php endif; ?>
 			<?php endforeach; ?>
 		</div>
 	</section>
