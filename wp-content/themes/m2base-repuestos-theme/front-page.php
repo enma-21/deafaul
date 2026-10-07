@@ -133,6 +133,29 @@ get_header();
 			<?php
 		endif;
 	endif;
+
+	if ( class_exists( 'M2Base_Catalogo_ML_Repository' ) ) :
+		$destacados_ml = M2Base_Catalogo_ML_Repository::destacados( 8 );
+		if ( ! empty( $destacados_ml ) ) :
+			wp_enqueue_style( 'm2mlc-frontend', M2MLC_URL . 'assets/css/m2base-catalogo-frontend.css', array(), M2MLC_VERSION );
+			?>
+			<section class="m2base-catalogo-ml">
+				<div class="m2base-contenedor">
+					<h2 class="m2base-seccion-titulo"><?php esc_html_e( 'Y eso no es todo: miles de repuestos más', 'm2base-repuestos-theme' ); ?></h2>
+					<p class="m2base-catalogo-ml__intro"><?php esc_html_e( 'Nuestro catálogo completo tiene miles de piezas adicionales. Búscalo por marca, modelo, año o categoría.', 'm2base-repuestos-theme' ); ?></p>
+					<div class="m2mlc-grid">
+						<?php foreach ( $destacados_ml as $item_ml ) : ?>
+							<?php echo M2Base_Catalogo_ML_Render::tarjeta_html( $item_ml, true ); ?>
+						<?php endforeach; ?>
+					</div>
+					<div class="m2base-catalogo-ml__cta">
+						<a class="m2base-boton m2base-boton--principal" href="<?php echo esc_url( home_url( '/catalogo/' ) ); ?>"><?php esc_html_e( 'Ver catálogo completo', 'm2base-repuestos-theme' ); ?></a>
+					</div>
+				</div>
+			</section>
+			<?php
+		endif;
+	endif;
 	?>
 
 	<section class="m2base-pagos">

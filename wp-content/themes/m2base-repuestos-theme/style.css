@@ -485,6 +485,18 @@ a {
 	color: var(--m2base-acento);
 }
 
+.m2base-catalogo-ml__intro {
+	color: var(--m2base-texto-suave);
+	margin: -8px 0 24px;
+	max-width: 640px;
+}
+
+.m2base-catalogo-ml__cta {
+	display: flex;
+	justify-content: center;
+	margin-top: 28px;
+}
+
 .m2base-pagos {
 	background: var(--m2base-superficie);
 	border-top: 1px solid var(--m2base-borde);

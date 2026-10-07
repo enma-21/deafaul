@@ -292,4 +292,17 @@ final class M2Base_Catalogo_ML_Repository {
         $table = M2Base_Catalogo_ML_Schema::table_catalogo();
         return (int) $wpdb->get_var("SELECT COUNT(*) FROM `{$table}` WHERE status = 'active'");
     }
+
+    /**
+     * Muestra para la vitrina del catálogo ML en la portada del sitio.
+     */
+    public static function destacados(int $limite = 8): array {
+        global $wpdb;
+        $table = M2Base_Catalogo_ML_Schema::table_catalogo();
+        return $wpdb->get_results($wpdb->prepare(
+            "SELECT * FROM `{$table}` WHERE status = 'active' AND available_quantity > 0
+             ORDER BY sold_quantity DESC, title ASC LIMIT %d",
+            $limite
+        ), ARRAY_A) ?: [];
+    }
 }

@@ -34,6 +34,10 @@ Este botón de WhatsApp es un enlace simple tipo "clic para chatear" (wa.me) —
 
 Cada publicación tiene su propia página en el sitio (`/repuesto-ml/{id}-{slug}/`, generada automáticamente, no hay que crear nada a mano) con foto, precio, ficha técnica, botón de WhatsApp, y una sección "También te puede interesar" con repuestos relacionados calculados automáticamente (misma categoría, priorizando los que además comparten marca/modelo de vehículo compatible). Esto es a propósito para que el tráfico de publicidad o redes sociales se quede dentro del sitio — ningún enlace de las tarjetas públicas ni de las recomendaciones lleva a Mercado Libre (eso podría exponer al visitante a ofertas de la competencia); el buscador interno de wp-admin sí sigue enlazando directo a Mercado Libre, para que el personal pueda revisar la publicación real.
 
+== Vitrina en la portada del sitio ==
+
+La portada del tema (`front-page.php`) muestra automáticamente una sección con 8 repuestos destacados del catálogo ML (los más vendidos, con stock disponible) y un botón "Ver catálogo completo" que lleva a la página pública del buscador. No hace falta configurar nada — aparece sola si el plugin está activo y tiene ítems sincronizados; si no, esa sección simplemente no se muestra. El enlace del botón asume que existe una página en `/catalogo/` con el shortcode `[m2base_catalogo_ml]`.
+
 == Sobre la marca/modelo de vehículo ==
 
 Mercado Libre no expone la compatibilidad de vehículo como un dato estructurado: solo existe como texto libre dentro del título de la publicación (los atributos BRAND/PART_NUMBER de la API se refieren al fabricante del repuesto, no al vehículo). Por eso la marca/modelo/año que se muestran en el buscador son el resultado de un reconocimiento de texto sobre el título, no un dato garantizado por Mercado Libre. Después de la primera sincronización completa conviene revisar una muestra de filas en la base de datos (columna `vehicle_match_conf`: alta/media/baja) para estimar qué tan confiable es antes de promocionar los filtros de vehículo como exactos. Las publicaciones sin clasificar siguen siendo encontrables por texto y por categoría.
