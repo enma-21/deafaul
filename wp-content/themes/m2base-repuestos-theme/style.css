@@ -319,21 +319,25 @@ a {
 .m2base-seccion-buscador--delgada .m2base-buscador {
 	max-width: 1100px;
 	margin: 0 auto;
-	padding: 14px 20px;
-	border-radius: 10px;
-	background: linear-gradient(120deg, var(--m2base-primario), var(--m2base-primario-suave));
+	padding: 0;
+	background: none;
 	box-shadow: none;
-	overflow: visible;
 }
 
-/* Una sola fila en pantallas grandes: texto + marca + modelo + categoría +
- * año + precio + botón, todos lado a lado (en vez de la grilla del plugin,
- * que fuerza el texto a su propia fila). Se envuelve solo si no entra. */
+/*
+ * El fondo azul se aplica al <form> en sí, no al contenedor completo:
+ * así los resultados (el siguiente hermano en el HTML, fuera del form)
+ * caen naturalmente fuera del recuadro azul, sin depender de márgenes
+ * negativos ni overflow — mucho más confiable.
+ */
 .m2base-seccion-buscador--delgada .m2base-buscador__form {
 	display: flex;
 	flex-wrap: wrap;
 	align-items: end;
 	gap: 10px;
+	background: linear-gradient(120deg, var(--m2base-primario), var(--m2base-primario-suave));
+	padding: 14px 20px;
+	border-radius: 10px;
 }
 
 .m2base-seccion-buscador--delgada .m2base-buscador__campo {
@@ -353,17 +357,8 @@ a {
 	flex: 0 0 auto;
 }
 
-/* El contenedor azul es solo para el formulario — los resultados se
- * "salen" de él (fondo propio, sin el degradado) usando márgenes
- * negativos iguales al padding del contenedor. */
 .m2base-seccion-buscador--delgada .m2base-buscador__resultados {
-	margin: 18px calc(-1 * 20px) calc(-1 * 14px);
-	padding: 20px 20px 0;
-	background: transparent;
-}
-
-.m2base-seccion-buscador--delgada .m2base-buscador__resultados[aria-busy='true'] {
-	padding-bottom: 20px;
+	margin-top: 20px;
 }
 
 /* Secciones genéricas */
