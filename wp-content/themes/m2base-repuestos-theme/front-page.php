@@ -103,10 +103,10 @@ get_header();
 
 	<section class="m2base-seccion-buscador m2base-seccion-buscador--delgada">
 		<div class="m2base-contenedor">
-			<?php if ( m2base_theme_plugin_activo() ) : ?>
-				<?php echo do_shortcode( '[m2base_buscador_repuestos titulo=""]' ); ?>
+			<?php if ( class_exists( 'M2Base_Catalogo_ML_Publico' ) ) : ?>
+				<?php echo do_shortcode( '[m2base_catalogo_ml titulo=""]' ); ?>
 			<?php else : ?>
-				<p class="m2base-aviso"><?php esc_html_e( 'Activa el plugin M2Base Repuestos para mostrar el buscador aquí.', 'm2base-repuestos-theme' ); ?></p>
+				<p class="m2base-aviso"><?php esc_html_e( 'Activa el plugin M2Base Catálogo Mercado Libre para mostrar el buscador aquí.', 'm2base-repuestos-theme' ); ?></p>
 			<?php endif; ?>
 		</div>
 	</section>
