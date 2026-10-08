@@ -110,11 +110,6 @@ final class M2Base_Catalogo_ML_Publico {
                     <input type="number" name="anio_desde" placeholder="<?php esc_attr_e('Desde', 'm2base-catalogo-ml'); ?>" min="1950" max="2100">
                     <input type="number" name="anio_hasta" placeholder="<?php esc_attr_e('Hasta', 'm2base-catalogo-ml'); ?>" min="1950" max="2100">
                 </div>
-                <div class="m2mlc-buscador__campo m2mlc-buscador__campo--rango">
-                    <label><?php esc_html_e('Precio', 'm2base-catalogo-ml'); ?></label>
-                    <input type="number" name="precio_min" placeholder="<?php esc_attr_e('Mín', 'm2base-catalogo-ml'); ?>" min="0" step="0.01">
-                    <input type="number" name="precio_max" placeholder="<?php esc_attr_e('Máx', 'm2base-catalogo-ml'); ?>" min="0" step="0.01">
-                </div>
                 <button type="submit" class="m2mlc-buscador__boton">
                     <span data-m2mlc-boton-texto><?php esc_html_e('Buscar', 'm2base-catalogo-ml'); ?></span>
                 </button>
