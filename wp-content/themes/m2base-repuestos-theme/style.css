@@ -939,3 +939,18 @@ a {
 		flex-wrap: wrap;
 	}
 }
+
+@media (max-width: 768px) {
+	.m2base-hero {
+		background-position: 80% center;
+		padding: 80px 15px;
+	}
+
+	.m2base-hero h1 {
+		font-size: 1.6rem;
+	}
+
+	.m2base-hero p {
+		font-size: 0.95rem;
+	}
+}
