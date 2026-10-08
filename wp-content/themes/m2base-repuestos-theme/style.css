@@ -942,15 +942,21 @@ a {
 
 @media (max-width: 768px) {
 	.m2base-hero {
+		background-image:
+			linear-gradient(rgba(17, 24, 39, 0.8), rgba(17, 24, 39, 0.85)),
+			url('https://testproyect.m2base.com/wp-content/uploads/2026/10/banner-principal.jpg');
 		background-position: 60% center;
 		padding: 80px 15px;
 	}
 
 	.m2base-hero h1 {
-		font-size: 1.6rem;
+		font-size: 1.8rem;
+		line-height: 1.2;
+		text-shadow: 0px 2px 8px rgba(0, 0, 0, 0.9);
 	}
 
 	.m2base-hero p {
 		font-size: 0.95rem;
+		text-shadow: 0px 2px 8px rgba(0, 0, 0, 0.9);
 	}
 }
