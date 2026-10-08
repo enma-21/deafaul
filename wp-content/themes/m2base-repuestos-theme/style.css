@@ -445,7 +445,11 @@ a {
 
 @media (max-width: 600px) {
 	.m2base-seccion-buscador--delgada .m2mlc-grid {
-		grid-template-columns: 1fr;
+		grid-template-columns: repeat(2, 1fr);
+	}
+
+	.m2base-seccion-buscador--delgada .m2mlc-grid > .m2mlc-card:nth-child(n + 5) {
+		display: none;
 	}
 }
 
@@ -709,7 +713,11 @@ a {
 
 @media (max-width: 600px) {
 	.m2base-catalogo-ml .m2mlc-grid {
-		grid-template-columns: 1fr;
+		grid-template-columns: repeat(2, 1fr);
+	}
+
+	.m2base-catalogo-ml .m2mlc-grid > .m2mlc-card:nth-child(n + 5) {
+		display: none;
 	}
 }
 
