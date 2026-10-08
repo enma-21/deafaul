@@ -242,13 +242,13 @@ a {
 /* Hero: foto de fondo con capa oscura para que el texto blanco resalte */
 .m2base-hero {
 	background-image:
-		linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
-		url('https://testproyect.m2base.com/wp-content/uploads/2026/10/fondo-hero.png');
+		linear-gradient(rgba(17, 24, 39, 0.6), rgba(17, 24, 39, 0.8)),
+		url('https://testproyect.m2base.com/wp-content/uploads/2026/10/banner-principal.jpg');
 	background-size: cover;
 	background-position: center;
 	background-repeat: no-repeat;
 	color: #fff;
-	padding: 56px 0 90px;
+	padding: 120px 20px;
 	position: relative;
 	overflow: hidden;
 }
@@ -307,19 +307,19 @@ a {
 
 .m2base-hero__cta {
 	display: inline-block;
-	margin-top: 24px;
-	padding: 14px 32px;
-	background: var(--m2base-acento);
+	margin-top: 20px;
+	padding: 15px 32px;
+	background: #ff5722;
 	color: #fff;
 	font-weight: 700;
 	text-decoration: none;
 	border-radius: 8px;
-	transition: filter 0.15s ease;
+	transition: background-color 0.15s ease;
 }
 
 .m2base-hero__cta:hover,
 .m2base-hero__cta:focus-visible {
-	filter: brightness(1.08);
+	background-color: #e64a19;
 	color: #fff;
 }
 
