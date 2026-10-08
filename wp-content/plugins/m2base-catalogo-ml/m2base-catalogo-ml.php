@@ -2,7 +2,7 @@
 /**
  * Plugin Name: M2Base Catálogo Mercado Libre
  * Description: Sincroniza el catálogo completo de Mercado Libre a una base de datos MySQL propia. Incluye un buscador interno (wp-admin), un buscador público para el sitio web (shortcode [m2base_catalogo_ml]) con botones de WhatsApp, y una página de detalle propia por repuesto con recomendaciones relacionadas.
- * Version: 1.2.1
+ * Version: 1.2.2
  * Author: M2 Base
  * Text Domain: m2base-catalogo-ml
  * License: GPL-2.0-or-later
@@ -12,7 +12,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-define('M2MLC_VERSION', '1.2.1');
+define('M2MLC_VERSION', '1.2.2');
 define('M2MLC_PATH', plugin_dir_path(__FILE__));
 define('M2MLC_URL', plugin_dir_url(__FILE__));
 

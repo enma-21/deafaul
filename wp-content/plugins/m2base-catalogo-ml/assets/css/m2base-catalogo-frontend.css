@@ -133,9 +133,10 @@
 }
 
 .m2mlc-card {
-	background: #fff;
+	background: #ffffff;
 	border: 1px solid var(--m2mlc-borde);
-	border-radius: 12px;
+	border-radius: 8px;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
 	overflow: hidden;
 	transition: box-shadow 0.15s ease, transform 0.15s ease;
 }
@@ -153,7 +154,7 @@
 
 .m2mlc-card__imagen {
 	position: relative;
-	aspect-ratio: 4 / 3;
+	height: 200px;
 	background: var(--m2mlc-fondo);
 	display: flex;
 	align-items: center;
@@ -163,7 +164,7 @@
 .m2mlc-card__imagen img {
 	width: 100%;
 	height: 100%;
-	object-fit: cover;
+	object-fit: contain;
 }
 
 .m2mlc-card__placeholder {
@@ -185,9 +186,11 @@
 
 .m2mlc-card__cuerpo {
 	padding: 16px;
+	text-align: left;
 }
 
 .m2mlc-card__categoria {
+	display: block;
 	font-size: 0.72rem;
 	text-transform: uppercase;
 	letter-spacing: 0.04em;
