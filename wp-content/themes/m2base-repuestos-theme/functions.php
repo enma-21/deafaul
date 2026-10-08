@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'M2BASE_THEME_VERSION', '1.6.0' );
+define( 'M2BASE_THEME_VERSION', '1.7.7' );
 
 function m2base_theme_setup() {
 	add_theme_support( 'title-tag' );
@@ -156,6 +156,26 @@ function m2base_theme_customizer( $wp_customize ) {
 			)
 		);
 	}
+
+	// Número para los botones "clic para chatear" (wa.me) del catálogo público,
+	// separado del enlace libre de m2base_whatsapp porque necesita ser solo
+	// dígitos con código de país para poder armar la URL con mensaje prellenado.
+	$wp_customize->add_setting(
+		'm2base_whatsapp_numero',
+		array(
+			'default'           => '584245578110',
+			'sanitize_callback' => 'sanitize_text_field',
+		)
+	);
+	$wp_customize->add_control(
+		'm2base_whatsapp_numero',
+		array(
+			'label'       => __( 'Número de WhatsApp para el catálogo (solo dígitos, con código de país)', 'm2base-repuestos-theme' ),
+			'description' => __( 'Ejemplo: 584245578110. Se usa en los botones "Consultar por WhatsApp" del catálogo público.', 'm2base-repuestos-theme' ),
+			'section'     => 'm2base_contacto',
+			'type'        => 'text',
+		)
+	);
 }
 add_action( 'customize_register', 'm2base_theme_customizer' );
 
@@ -176,17 +196,34 @@ function m2base_theme_marcas_logos() {
  * Cifras de confianza mostradas en la portada. Son valores de ejemplo:
  * ajústalos aquí cuando el cliente confirme sus números reales.
  */
-function m2base_theme_numeros_confianza() {
+/**
+ * $productos_disponibles: cifra real de repuestos activos en el catálogo ML,
+ * calculada en front-page.php (no aquí, para no acoplar esta función de
+ * datos genéricos del tema a una clase de un plugin específico). Si viene
+ * null (plugin inactivo), se usa un valor de respaldo fijo.
+ */
+function m2base_theme_numeros_confianza( $productos_disponibles = null ) {
 	return array(
-		array( 'numero' => '+500', 'etiqueta' => __( 'Repuestos disponibles', 'm2base-repuestos-theme' ) ),
-		array( 'numero' => '+10', 'etiqueta' => __( 'Años de experiencia', 'm2base-repuestos-theme' ) ),
 		array( 'numero' => '100%', 'etiqueta' => __( 'Envíos a todo el país', 'm2base-repuestos-theme' ) ),
+		array( 'numero' => $productos_disponibles ?? '+500', 'etiqueta' => __( 'Repuestos disponibles', 'm2base-repuestos-theme' ) ),
+		array( 'numero' => '+10', 'etiqueta' => __( 'Años de experiencia', 'm2base-repuestos-theme' ) ),
 	);
 }
 
 function m2base_theme_medios_de_pago() {
 	return array(
-		array( 'nombre' => __( 'Tarjeta (Stripe)', 'm2base-repuestos-theme' ), 'estado' => __( 'próximamente', 'm2base-repuestos-theme' ) ),
-		array( 'nombre' => __( 'Transferencia bancaria', 'm2base-repuestos-theme' ), 'estado' => __( 'próximamente', 'm2base-repuestos-theme' ) ),
+		array(
+			'nombre' => __( 'Pago Móvil', 'm2base-repuestos-theme' ),
+			'nota'   => __( 'Calculado a Tasa', 'm2base-repuestos-theme' ),
+			'logo'   => 'https://testproyect.m2base.com/wp-content/uploads/2026/10/logo-bcv.png',
+		),
+		array( 'nombre' => __( 'Divisas (Efectivo)', 'm2base-repuestos-theme' ) ),
+		array( 'nombre' => __( 'Zelle', 'm2base-repuestos-theme' ) ),
+		array( 'nombre' => __( 'Binance Pay', 'm2base-repuestos-theme' ) ),
+		array(
+			'nombre'    => __( 'Cashea', 'm2base-repuestos-theme' ),
+			'logo'      => 'https://testproyect.m2base.com/wp-content/uploads/2026/10/logo-cashea.png',
+			'destacado' => true,
+		),
 	);
 }

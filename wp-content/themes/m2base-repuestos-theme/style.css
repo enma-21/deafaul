@@ -28,6 +28,10 @@ Text Domain: m2base-repuestos-theme
 	box-sizing: border-box;
 }
 
+html {
+	scroll-behavior: smooth;
+}
+
 body {
 	margin: 0;
 	font-family: var(--m2base-fuente);
@@ -235,15 +239,16 @@ a {
 	color: var(--m2base-acento);
 }
 
-/* Hero: textura de placa metálica (diamond plate), como el fondo del logo */
+/* Hero: foto de fondo con capa oscura para que el texto blanco resalte */
 .m2base-hero {
-	background:
-		repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.06) 0 2px, transparent 2px 16px),
-		repeating-linear-gradient(-45deg, rgba(255, 255, 255, 0.06) 0 2px, transparent 2px 16px),
-		radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.06), transparent 55%),
-		linear-gradient(160deg, #2b2e32, #1a1c1f 55%, #101214);
+	background-image:
+		linear-gradient(rgba(17, 24, 39, 0.6), rgba(17, 24, 39, 0.8)),
+		url('https://testproyect.m2base.com/wp-content/uploads/2026/10/banner-principal.jpg');
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
 	color: #fff;
-	padding: 56px 0 90px;
+	padding: 120px 20px;
 	position: relative;
 	overflow: hidden;
 }
@@ -300,8 +305,152 @@ a {
 	font-size: 1.05rem;
 }
 
+.m2base-hero__cta {
+	display: inline-block;
+	margin-top: 20px;
+	padding: 15px 32px;
+	background: #ff5722;
+	color: #fff;
+	font-weight: 700;
+	text-decoration: none;
+	border-radius: 8px;
+	transition: background-color 0.15s ease;
+}
+
+.m2base-hero__cta:hover,
+.m2base-hero__cta:focus-visible {
+	background-color: #e64a19;
+	color: #fff;
+}
+
+.m2base-hero__cashea {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-wrap: wrap;
+	gap: 8px;
+	margin-top: 14px;
+}
+
+.m2base-hero__cashea span {
+	color: #fff;
+	font-size: 0.8rem;
+}
+
+.m2base-hero__cashea-logo {
+	max-width: 100px;
+	height: auto;
+	border-radius: 6px;
+	display: block;
+}
+
 .m2base-seccion-buscador {
 	padding: 40px 0;
+}
+
+/*
+ * Franja delgada: usa el buscador del catálogo Mercado Libre (shortcode
+ * [m2base_catalogo_ml], clases m2mlc-*) — el mismo que ya funciona en
+ * /catalogo/ contra los 4.607 productos reales. El buscador manual viejo
+ * (m2base-repuestos) nunca tuvo datos reales cargados, así que se dejó de
+ * usar aquí. Estas reglas lo comprimen solo en este contexto (portada),
+ * sin tocar el CSS del plugin ni afectar /catalogo/.
+ */
+.m2base-seccion-buscador--delgada {
+	padding: 24px 0;
+}
+
+.m2base-seccion-buscador--delgada .m2mlc-buscador {
+	padding: 0;
+	background: none;
+	box-shadow: none;
+	border: none;
+}
+
+/*
+ * El fondo azul se aplica al <form> en sí, no al contenedor completo:
+ * así los resultados (el siguiente hermano en el HTML, fuera del form)
+ * caen naturalmente fuera del recuadro azul, sin depender de márgenes
+ * negativos ni overflow — mucho más confiable.
+ */
+.m2base-seccion-buscador--delgada .m2mlc-buscador__form {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: end;
+	gap: 10px;
+	background: linear-gradient(120deg, var(--m2mlc-primario), var(--m2mlc-primario-suave));
+	padding: 14px 20px;
+	border-radius: 10px;
+}
+
+.m2base-seccion-buscador--delgada .m2mlc-buscador__campo {
+	flex: 1 1 120px;
+}
+
+.m2base-seccion-buscador--delgada .m2mlc-buscador__campo--texto {
+	flex: 2 1 200px;
+}
+
+.m2base-seccion-buscador--delgada .m2mlc-buscador__campo--rango {
+	flex: 1 1 200px;
+}
+
+.m2base-seccion-buscador--delgada .m2mlc-buscador__campo--rango input {
+	min-width: 0;
+}
+
+.m2base-seccion-buscador--delgada .m2mlc-buscador__boton {
+	flex: 0 0 auto;
+}
+
+.m2base-seccion-buscador--delgada .m2mlc-buscador__resultados {
+	margin-top: 20px;
+}
+
+/*
+ * En la portada ya hay una cuadrícula de destacados justo debajo de este
+ * buscador, así que un botón "Cargar más" aquí resulta confuso (parece que
+ * hace falta para ver más productos, cuando ya los hay más abajo). La
+ * paginación sigue intacta en /catalogo/, donde sí es el único medio de
+ * recorrer el catálogo completo.
+ */
+.m2base-seccion-buscador--delgada .m2mlc-cargar-mas-wrap {
+	display: none;
+}
+
+/*
+ * Por el mismo motivo, los resultados del buscador en la portada se limitan
+ * a 2 filas (8 tarjetas) en vez de la página completa de 24 — igual que la
+ * cuadrícula de destacados justo debajo. El buscador sigue trayendo todos
+ * los resultados reales (el total mostrado arriba no cambia), solo se
+ * ocultan visualmente las tarjetas de más para no saturar la portada.
+ */
+.m2base-seccion-buscador--delgada .m2mlc-total {
+	display: none;
+}
+
+.m2base-seccion-buscador--delgada .m2mlc-grid {
+	grid-template-columns: repeat(4, 1fr);
+}
+
+.m2base-seccion-buscador--delgada .m2mlc-grid > .m2mlc-card:nth-child(n + 9) {
+	display: none;
+}
+
+@media (max-width: 992px) {
+	.m2base-seccion-buscador--delgada .m2mlc-grid {
+		grid-template-columns: repeat(2, 1fr);
+	}
+}
+
+@media (max-width: 600px) {
+	.m2base-seccion-buscador--delgada .m2mlc-grid {
+		grid-template-columns: repeat(2, 1fr);
+	}
+
+	.m2base-seccion-buscador--delgada .m2mlc-grid > .m2mlc-card:nth-child(n + 5) {
+		display: none;
+	}
 }
 
 /* Secciones genéricas */
@@ -323,19 +472,19 @@ a {
 }
 
 .m2base-cifras__grid {
-	display: flex;
-	justify-content: center;
-	flex-wrap: wrap;
-	text-align: center;
+	display: grid;
+	grid-template-columns: minmax(220px, 1.3fr) repeat(3, 1fr);
+	gap: 24px;
+	align-items: stretch;
 }
 
 .m2base-cifras__item {
-	padding: 0 40px;
-	border-right: 1px solid var(--m2base-borde);
-}
-
-.m2base-cifras__item:last-child {
-	border-right: none;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	padding: 12px 8px;
 }
 
 .m2base-cifras__numero {
@@ -352,16 +501,83 @@ a {
 	margin-top: 4px;
 }
 
-@media (max-width: 600px) {
-	.m2base-cifras__item {
-		padding: 12px 20px;
-		border-right: none;
-		border-bottom: 1px solid var(--m2base-borde);
-		flex: 1 1 100%;
-	}
+.m2base-reputacion {
+	display: block;
+	background: #fff;
+	border: 1px solid var(--m2base-borde);
+	border-radius: 12px;
+	padding: 18px 20px;
+	text-decoration: none;
+	color: var(--m2base-texto);
+	box-shadow: 0 4px 14px rgba(16, 24, 40, 0.06);
+	transition: box-shadow 0.15s ease, transform 0.15s ease;
+}
 
-	.m2base-cifras__item:last-child {
-		border-bottom: none;
+.m2base-reputacion:hover,
+.m2base-reputacion:focus-visible {
+	box-shadow: 0 10px 24px rgba(16, 24, 40, 0.1);
+	transform: translateY(-2px);
+}
+
+.m2base-reputacion__etiqueta {
+	display: block;
+	font-size: 0.75rem;
+	color: var(--m2base-texto-suave);
+	margin-bottom: 6px;
+}
+
+.m2base-reputacion__titulo {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	font-weight: 800;
+	font-size: 1.05rem;
+	color: var(--m2base-texto);
+	margin-bottom: 14px;
+}
+
+.m2base-reputacion__check {
+	width: 18px;
+	height: 18px;
+	flex-shrink: 0;
+}
+
+.m2base-reputacion__medidor {
+	display: flex;
+	gap: 3px;
+	height: 6px;
+	margin-bottom: 12px;
+}
+
+.m2base-reputacion__segmento {
+	flex: 1;
+	border-radius: 999px;
+	background: #f6d7dc;
+}
+
+.m2base-reputacion__segmento--2 {
+	background: #fbe7ea;
+}
+
+.m2base-reputacion__segmento--3 {
+	background: #faf0c8;
+}
+
+.m2base-reputacion__segmento--4 {
+	background: #00a650;
+	flex: 1.6;
+}
+
+.m2base-reputacion__enlace {
+	display: block;
+	font-size: 0.8rem;
+	font-weight: 700;
+	color: var(--m2base-acento);
+}
+
+@media (max-width: 760px) {
+	.m2base-cifras__grid {
+		grid-template-columns: 1fr;
 	}
 }
 
@@ -485,32 +701,97 @@ a {
 	color: var(--m2base-acento);
 }
 
+.m2base-catalogo-ml .m2mlc-grid {
+	grid-template-columns: repeat(4, 1fr);
+}
+
+@media (max-width: 992px) {
+	.m2base-catalogo-ml .m2mlc-grid {
+		grid-template-columns: repeat(2, 1fr);
+	}
+}
+
+@media (max-width: 600px) {
+	.m2base-catalogo-ml .m2mlc-grid {
+		grid-template-columns: repeat(2, 1fr);
+	}
+
+	.m2base-catalogo-ml .m2mlc-grid > .m2mlc-card:nth-child(n + 5) {
+		display: none;
+	}
+}
+
+/*
+ * La página /catalogo/ (page-id-22) sí debe poder recorrer el catálogo
+ * completo — su "Cargar más" se deja intacto, a diferencia del buscador
+ * compacto y los destacados de la portada. Solo se ajusta a 2 columnas en
+ * mobile en vez de 1, para que las tarjetas no queden tan altas.
+ */
+@media (max-width: 600px) {
+	.page-id-22 .m2mlc-grid {
+		grid-template-columns: repeat(2, 1fr);
+	}
+}
+
+.m2base-catalogo-ml__cta {
+	display: flex;
+	justify-content: center;
+	margin-top: 28px;
+}
+
 .m2base-pagos {
 	background: var(--m2base-superficie);
 	border-top: 1px solid var(--m2base-borde);
 }
 
 .m2base-pagos__chips {
-	display: flex;
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
 	gap: 16px;
-	flex-wrap: wrap;
 }
 
 .m2base-pagos__chip {
-	border: 1px dashed var(--m2base-borde);
+	border: 1px solid var(--m2base-borde);
 	border-radius: var(--m2base-radio);
-	padding: 14px 18px;
+	padding: 22px 16px 18px;
 	display: flex;
 	flex-direction: column;
-	gap: 4px;
-	min-width: 200px;
+	align-items: center;
+	text-align: center;
+	gap: 6px;
+}
+
+.m2base-pagos__chip-logo {
+	max-width: 90px;
+	height: auto;
+	margin-bottom: 4px;
 }
 
 .m2base-pagos__chip span {
 	font-size: 0.8rem;
 	color: var(--m2base-texto-suave);
+}
+
+.m2base-pagos__chip--destacado {
+	position: relative;
+	border: 2px solid #ffe000;
+	background: #fffbe6;
+}
+
+.m2base-pagos__chip--destacado::before {
+	content: 'Financiamiento';
+	position: absolute;
+	top: -11px;
+	left: 50%;
+	transform: translateX(-50%);
+	background: #ffe000;
+	color: #111;
+	font-size: 0.65rem;
+	font-weight: 700;
 	text-transform: uppercase;
 	letter-spacing: 0.03em;
+	padding: 2px 10px;
+	border-radius: 999px;
 }
 
 .m2base-pagos__nota {
@@ -771,5 +1052,26 @@ a {
 
 	.m2base-header__principal {
 		flex-wrap: wrap;
+	}
+}
+
+@media (max-width: 768px) {
+	.m2base-hero {
+		background-image:
+			linear-gradient(rgba(17, 24, 39, 0.8), rgba(17, 24, 39, 0.85)),
+			url('https://testproyect.m2base.com/wp-content/uploads/2026/10/banner-principal.jpg');
+		background-position: 60% center;
+		padding: 80px 15px;
+	}
+
+	.m2base-hero h1 {
+		font-size: 1.8rem;
+		line-height: 1.2;
+		text-shadow: 0px 2px 8px rgba(0, 0, 0, 0.9);
+	}
+
+	.m2base-hero p {
+		font-size: 0.95rem;
+		text-shadow: 0px 2px 8px rgba(0, 0, 0, 0.9);
 	}
 }

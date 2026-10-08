@@ -15,23 +15,40 @@ get_header();
 				<span class="m2base-hero__etiqueta"><?php esc_html_e( 'Repuestos originales y alternativos', 'm2base-repuestos-theme' ); ?></span>
 				<h1><?php echo esc_html( get_theme_mod( 'm2base_hero_titulo', __( 'El repuesto exacto para tu vehículo, en un solo lugar', 'm2base-repuestos-theme' ) ) ); ?></h1>
 				<p><?php echo esc_html( get_theme_mod( 'm2base_hero_subtitulo', __( 'Busca por marca, modelo y año, y encuentra piezas nuevas, usadas y reacondicionadas con disponibilidad confirmada.', 'm2base-repuestos-theme' ) ) ); ?></p>
+				<a href="#buscador-filtros" class="m2base-hero__cta"><?php esc_html_e( 'Ir al buscador', 'm2base-repuestos-theme' ); ?></a>
+				<div class="m2base-hero__cashea">
+					<span><?php esc_html_e( 'Cómpralo hoy en cuotas sin interés con:', 'm2base-repuestos-theme' ); ?></span>
+					<img src="https://testproyect.m2base.com/wp-content/uploads/2026/10/logo-cashea.png" alt="Cashea" class="m2base-hero__cashea-logo">
+				</div>
 			</div>
-		</div>
-	</section>
-
-	<section class="m2base-seccion-buscador">
-		<div class="m2base-contenedor">
-			<?php if ( m2base_theme_plugin_activo() ) : ?>
-				<?php echo do_shortcode( '[m2base_buscador_repuestos titulo=""]' ); ?>
-			<?php else : ?>
-				<p class="m2base-aviso"><?php esc_html_e( 'Activa el plugin M2Base Repuestos para mostrar el buscador aquí.', 'm2base-repuestos-theme' ); ?></p>
-			<?php endif; ?>
 		</div>
 	</section>
 
 	<section class="m2base-cifras">
 		<div class="m2base-contenedor m2base-cifras__grid">
-			<?php foreach ( m2base_theme_numeros_confianza() as $cifra ) : ?>
+			<a class="m2base-reputacion" href="https://www.mercadolibre.com.ve/pagina/masterbrake1937" target="_blank" rel="noopener">
+				<span class="m2base-reputacion__etiqueta"><?php esc_html_e( 'Reputación', 'm2base-repuestos-theme' ); ?></span>
+				<span class="m2base-reputacion__titulo">
+					<?php esc_html_e( 'MercadoLíder Platinum', 'm2base-repuestos-theme' ); ?>
+					<svg class="m2base-reputacion__check" viewBox="0 0 24 24" aria-hidden="true">
+						<circle cx="12" cy="12" r="11" fill="#00a650" />
+						<path d="M7 12.5l3 3 7-7" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+					</svg>
+				</span>
+				<span class="m2base-reputacion__medidor" aria-hidden="true">
+					<span class="m2base-reputacion__segmento m2base-reputacion__segmento--1"></span>
+					<span class="m2base-reputacion__segmento m2base-reputacion__segmento--2"></span>
+					<span class="m2base-reputacion__segmento m2base-reputacion__segmento--3"></span>
+					<span class="m2base-reputacion__segmento m2base-reputacion__segmento--4"></span>
+				</span>
+				<span class="m2base-reputacion__enlace"><?php esc_html_e( 'Ir a Reputación', 'm2base-repuestos-theme' ); ?> ›</span>
+			</a>
+			<?php
+			$productos_disponibles = class_exists( 'M2Base_Catalogo_ML_Repository' )
+				? '+' . number_format_i18n( M2Base_Catalogo_ML_Repository::contar_activos() )
+				: null;
+			foreach ( m2base_theme_numeros_confianza( $productos_disponibles ) as $cifra ) :
+				?>
 				<div class="m2base-cifras__item">
 					<span class="m2base-cifras__numero"><?php echo esc_html( $cifra['numero'] ); ?></span>
 					<span class="m2base-cifras__etiqueta"><?php echo esc_html( $cifra['etiqueta'] ); ?></span>
@@ -89,45 +106,31 @@ get_header();
 		</div>
 	</section>
 
-	<?php if ( m2base_theme_plugin_activo() ) :
-		$categorias = get_terms(
-			array(
-				'taxonomy'   => 'categoria_repuesto',
-				'hide_empty' => true,
-				'number'     => 6,
-			)
-		);
-		if ( ! is_wp_error( $categorias ) && ! empty( $categorias ) ) :
+	<section id="buscador-filtros" class="m2base-seccion-buscador m2base-seccion-buscador--delgada">
+		<div class="m2base-contenedor">
+			<?php if ( class_exists( 'M2Base_Catalogo_ML_Publico' ) ) : ?>
+				<?php echo do_shortcode( '[m2base_catalogo_ml titulo=""]' ); ?>
+			<?php else : ?>
+				<p class="m2base-aviso"><?php esc_html_e( 'Activa el plugin M2Base Catálogo Mercado Libre para mostrar el buscador aquí.', 'm2base-repuestos-theme' ); ?></p>
+			<?php endif; ?>
+		</div>
+	</section>
+
+	<?php if ( class_exists( 'M2Base_Catalogo_ML_Repository' ) ) :
+		$destacados_ml = M2Base_Catalogo_ML_Repository::destacados( 8 );
+		if ( ! empty( $destacados_ml ) ) :
+			wp_enqueue_style( 'm2mlc-frontend', M2MLC_URL . 'assets/css/m2base-catalogo-frontend.css', array(), M2MLC_VERSION );
 			?>
-			<section class="m2base-categorias">
+			<section class="m2base-catalogo-ml">
 				<div class="m2base-contenedor">
-					<h2 class="m2base-seccion-titulo"><?php esc_html_e( 'Compra por categoría', 'm2base-repuestos-theme' ); ?></h2>
-					<div class="m2base-categorias__grid">
-						<?php foreach ( $categorias as $categoria ) : ?>
-							<a class="m2base-categorias__item" href="<?php echo esc_url( get_term_link( $categoria ) ); ?>">
-								<?php echo m2base_theme_icon( m2base_theme_icono_categoria( $categoria->name ), 'm2base-categorias__icono' ); ?>
-								<span><?php echo esc_html( $categoria->name ); ?></span>
-							</a>
+					<div class="m2mlc-grid">
+						<?php foreach ( $destacados_ml as $item_ml ) : ?>
+							<?php echo M2Base_Catalogo_ML_Render::tarjeta_html( $item_ml, true ); ?>
 						<?php endforeach; ?>
 					</div>
-				</div>
-			</section>
-		<?php endif; ?>
-
-		<?php
-		$destacados = new WP_Query(
-			array(
-				'post_type'      => 'repuesto',
-				'posts_per_page' => 8,
-				'post_status'    => 'publish',
-			)
-		);
-		if ( $destacados->have_posts() ) :
-			?>
-			<section class="m2base-destacados">
-				<div class="m2base-contenedor">
-					<h2 class="m2base-seccion-titulo"><?php esc_html_e( 'Últimos repuestos agregados', 'm2base-repuestos-theme' ); ?></h2>
-					<?php echo M2Base_Repuestos_Render::resultados_html( $destacados ); ?>
+					<div class="m2base-catalogo-ml__cta">
+						<a class="m2base-boton m2base-boton--principal" href="<?php echo esc_url( home_url( '/catalogo/' ) ); ?>"><?php esc_html_e( 'Ver catálogo completo', 'm2base-repuestos-theme' ); ?></a>
+					</div>
 				</div>
 			</section>
 			<?php
@@ -137,20 +140,30 @@ get_header();
 
 	<section class="m2base-pagos">
 		<div class="m2base-contenedor m2base-pagos__inner">
-			<h2 class="m2base-seccion-titulo"><?php esc_html_e( 'Formas de pago (próximamente)', 'm2base-repuestos-theme' ); ?></h2>
+			<h2 class="m2base-seccion-titulo"><?php esc_html_e( 'Métodos de Pago Aceptados', 'm2base-repuestos-theme' ); ?></h2>
 			<div class="m2base-pagos__chips">
 				<?php foreach ( m2base_theme_medios_de_pago() as $medio ) : ?>
-					<div class="m2base-pagos__chip">
+					<div class="m2base-pagos__chip<?php echo ! empty( $medio['destacado'] ) ? ' m2base-pagos__chip--destacado' : ''; ?>">
+						<?php if ( ! empty( $medio['logo'] ) ) : ?>
+							<img class="m2base-pagos__chip-logo" src="<?php echo esc_url( $medio['logo'] ); ?>" alt="<?php echo esc_attr( $medio['nombre'] ); ?>">
+						<?php endif; ?>
 						<strong><?php echo esc_html( $medio['nombre'] ); ?></strong>
-						<span><?php echo esc_html( $medio['estado'] ); ?></span>
+						<?php if ( ! empty( $medio['nota'] ) ) : ?>
+							<span><?php echo esc_html( $medio['nota'] ); ?></span>
+						<?php endif; ?>
 					</div>
 				<?php endforeach; ?>
 			</div>
-			<p class="m2base-pagos__nota"><?php esc_html_e( 'Por ahora, escríbenos por WhatsApp o teléfono para cotizar y coordinar tu compra.', 'm2base-repuestos-theme' ); ?></p>
+			<p class="m2base-pagos__nota"><?php esc_html_e( 'Escríbenos por WhatsApp o teléfono para cotizar y coordinar tu compra.', 'm2base-repuestos-theme' ); ?></p>
 		</div>
 	</section>
 
 </main>
 
 <?php
+if ( class_exists( 'M2Base_Catalogo_ML_Publico' ) ) {
+	wp_enqueue_style( 'm2mlc-frontend', M2MLC_URL . 'assets/css/m2base-catalogo-frontend.css', array(), M2MLC_VERSION );
+	echo M2Base_Catalogo_ML_Publico::boton_flotante_html();
+}
+
 get_footer();
