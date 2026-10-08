@@ -114,6 +114,18 @@ final class M2Base_Catalogo_ML_Admin {
                 </tbody>
             </table>
 
+            <?php
+            $ultima_auto = M2Base_Catalogo_ML_Sync::ultima_sincronizacion();
+            ?>
+            <p>
+                <strong>Sincronización automática:</strong> activa, corre sola una vez al día (precios y stock se actualizan sin que nadie tenga que entrar aquí).
+                <?php if ($ultima_auto !== '') : ?>
+                    Última completada: <?php echo esc_html(get_date_from_gmt($ultima_auto, 'd/m/Y H:i')); ?>.
+                <?php else : ?>
+                    Aún no se ha completado ninguna de forma automática.
+                <?php endif; ?>
+            </p>
+
             <?php if (!$activo) : ?>
                 <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>" style="margin-bottom:1em;">
                     <input type="hidden" name="action" value="m2mlc_sync_start">

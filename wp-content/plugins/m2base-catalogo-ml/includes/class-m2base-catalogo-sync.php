@@ -15,6 +15,7 @@ final class M2Base_Catalogo_ML_Sync {
 
     const STATE_OPTION = 'm2mlc_sync_state';
     const CATEGORY_CACHE_OPTION = 'm2mlc_category_names';
+    const LAST_FULL_SYNC_OPTION = 'm2mlc_ultima_sincronizacion_completa';
     const API_URL = 'https://api.mercadolibre.com';
     const LISTING_PAGES_PER_TICK = 5;
     const DETAIL_CHUNKS_PER_TICK = 10;
@@ -68,6 +69,31 @@ final class M2Base_Catalogo_ML_Sync {
 
     public static function reiniciar(): void {
         delete_option(self::STATE_OPTION);
+    }
+
+    public static function ultima_sincronizacion(): string {
+        return (string) get_option(self::LAST_FULL_SYNC_OPTION, '');
+    }
+
+    /**
+     * Enganchado a un evento de WP-Cron (ver m2base-catalogo-ml.php) que se
+     * dispara cada ~10 minutos: si ya hay una corrida en curso, la avanza un
+     * lote (igual que antes hacía la carga de la página de ajustes); si no
+     * hay ninguna activa y pasaron 24h desde la última completa, arranca una
+     * nueva. Así el catálogo (precios, stock) se mantiene al día solo, sin
+     * que alguien tenga que entrar manualmente a iniciar la sincronización.
+     */
+    public static function cron_tick(): void {
+        if (self::esta_activo()) {
+            self::process_batch();
+            return;
+        }
+
+        $ultima = self::ultima_sincronizacion();
+        $hace_24h = $ultima === '' || strtotime($ultima . ' UTC') <= time() - DAY_IN_SECONDS;
+        if ($hace_24h) {
+            self::iniciar();
+        }
     }
 
     public static function process_batch(): void {
@@ -367,6 +393,7 @@ final class M2Base_Catalogo_ML_Sync {
         // marcar inactivo lo que no apareció en esa muestra.
         if ($test_limit === 0) {
             M2Base_Catalogo_ML_Repository::marcar_inactivos_antes_de($started_at_gmt);
+            update_option(self::LAST_FULL_SYNC_OPTION, current_time('mysql', true), false);
         }
         M2Base_Catalogo_ML_Repository::invalidar_cache_filtros();
 
