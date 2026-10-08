@@ -162,6 +162,9 @@ final class M2Base_Catalogo_ML_Item {
                                 <?php echo M2Base_Catalogo_ML_Render::tarjeta_html($relacionado, true); ?>
                             <?php endforeach; ?>
                         </div>
+                        <div class="m2mlc-relacionados__cta">
+                            <a class="m2mlc-relacionados__boton" href="<?php echo esc_url(home_url('/catalogo/')); ?>"><?php esc_html_e('Ver catálogo completo', 'm2base-catalogo-ml'); ?></a>
+                        </div>
                     </section>
                 <?php endif; ?>
             </div>
