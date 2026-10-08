@@ -418,6 +418,37 @@ a {
 	display: none;
 }
 
+/*
+ * Por el mismo motivo, los resultados del buscador en la portada se limitan
+ * a 2 filas (8 tarjetas) en vez de la página completa de 24 — igual que la
+ * cuadrícula de destacados justo debajo. El buscador sigue trayendo todos
+ * los resultados reales (el total mostrado arriba no cambia), solo se
+ * ocultan visualmente las tarjetas de más para no saturar la portada.
+ */
+.m2base-seccion-buscador--delgada .m2mlc-total {
+	display: none;
+}
+
+.m2base-seccion-buscador--delgada .m2mlc-grid {
+	grid-template-columns: repeat(4, 1fr);
+}
+
+.m2base-seccion-buscador--delgada .m2mlc-grid > .m2mlc-card:nth-child(n + 9) {
+	display: none;
+}
+
+@media (max-width: 992px) {
+	.m2base-seccion-buscador--delgada .m2mlc-grid {
+		grid-template-columns: repeat(2, 1fr);
+	}
+}
+
+@media (max-width: 600px) {
+	.m2base-seccion-buscador--delgada .m2mlc-grid {
+		grid-template-columns: 1fr;
+	}
+}
+
 /* Secciones genéricas */
 .m2base-seccion-titulo {
 	font-size: 1.5rem;
