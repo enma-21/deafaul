@@ -363,6 +363,17 @@ a {
 	margin-top: 20px;
 }
 
+/*
+ * En la portada ya hay una cuadrícula de destacados justo debajo de este
+ * buscador, así que un botón "Cargar más" aquí resulta confuso (parece que
+ * hace falta para ver más productos, cuando ya los hay más abajo). La
+ * paginación sigue intacta en /catalogo/, donde sí es el único medio de
+ * recorrer el catálogo completo.
+ */
+.m2base-seccion-buscador--delgada .m2mlc-cargar-mas-wrap {
+	display: none;
+}
+
 /* Secciones genéricas */
 .m2base-seccion-titulo {
 	font-size: 1.5rem;
