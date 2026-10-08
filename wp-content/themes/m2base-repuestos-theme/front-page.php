@@ -15,6 +15,7 @@ get_header();
 				<span class="m2base-hero__etiqueta"><?php esc_html_e( 'Repuestos originales y alternativos', 'm2base-repuestos-theme' ); ?></span>
 				<h1><?php echo esc_html( get_theme_mod( 'm2base_hero_titulo', __( 'El repuesto exacto para tu vehículo, en un solo lugar', 'm2base-repuestos-theme' ) ) ); ?></h1>
 				<p><?php echo esc_html( get_theme_mod( 'm2base_hero_subtitulo', __( 'Busca por marca, modelo y año, y encuentra piezas nuevas, usadas y reacondicionadas con disponibilidad confirmada.', 'm2base-repuestos-theme' ) ) ); ?></p>
+				<a href="#buscador-filtros" class="m2base-hero__cta"><?php esc_html_e( 'Ir al buscador', 'm2base-repuestos-theme' ); ?></a>
 			</div>
 		</div>
 	</section>
@@ -101,7 +102,7 @@ get_header();
 		</div>
 	</section>
 
-	<section class="m2base-seccion-buscador m2base-seccion-buscador--delgada">
+	<section id="buscador-filtros" class="m2base-seccion-buscador m2base-seccion-buscador--delgada">
 		<div class="m2base-contenedor">
 			<?php if ( class_exists( 'M2Base_Catalogo_ML_Publico' ) ) : ?>
 				<?php echo do_shortcode( '[m2base_catalogo_ml titulo=""]' ); ?>

@@ -28,6 +28,10 @@ Text Domain: m2base-repuestos-theme
 	box-sizing: border-box;
 }
 
+html {
+	scroll-behavior: smooth;
+}
+
 body {
 	margin: 0;
 	font-family: var(--m2base-fuente);
@@ -235,13 +239,14 @@ a {
 	color: var(--m2base-acento);
 }
 
-/* Hero: textura de placa metálica (diamond plate), como el fondo del logo */
+/* Hero: foto de fondo con capa oscura para que el texto blanco resalte */
 .m2base-hero {
-	background:
-		repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.06) 0 2px, transparent 2px 16px),
-		repeating-linear-gradient(-45deg, rgba(255, 255, 255, 0.06) 0 2px, transparent 2px 16px),
-		radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.06), transparent 55%),
-		linear-gradient(160deg, #2b2e32, #1a1c1f 55%, #101214);
+	background-image:
+		linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+		url('assets/images/fondo-hero.jpg');
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
 	color: #fff;
 	padding: 56px 0 90px;
 	position: relative;
@@ -298,6 +303,24 @@ a {
 	margin: 0 auto;
 	color: #cbd2e0;
 	font-size: 1.05rem;
+}
+
+.m2base-hero__cta {
+	display: inline-block;
+	margin-top: 24px;
+	padding: 14px 32px;
+	background: var(--m2base-acento);
+	color: #fff;
+	font-weight: 700;
+	text-decoration: none;
+	border-radius: 8px;
+	transition: filter 0.15s ease;
+}
+
+.m2base-hero__cta:hover,
+.m2base-hero__cta:focus-visible {
+	filter: brightness(1.08);
+	color: #fff;
 }
 
 .m2base-seccion-buscador {
