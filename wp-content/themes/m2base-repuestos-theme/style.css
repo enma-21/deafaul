@@ -721,6 +721,18 @@ a {
 	}
 }
 
+/*
+ * La página /catalogo/ (page-id-22) sí debe poder recorrer el catálogo
+ * completo — su "Cargar más" se deja intacto, a diferencia del buscador
+ * compacto y los destacados de la portada. Solo se ajusta a 2 columnas en
+ * mobile en vez de 1, para que las tarjetas no queden tan altas.
+ */
+@media (max-width: 600px) {
+	.page-id-22 .m2mlc-grid {
+		grid-template-columns: repeat(2, 1fr);
+	}
+}
+
 .m2base-catalogo-ml__cta {
 	display: flex;
 	justify-content: center;
