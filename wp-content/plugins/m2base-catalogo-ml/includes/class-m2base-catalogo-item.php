@@ -142,8 +142,15 @@ final class M2Base_Catalogo_ML_Item {
                         </ul>
 
                         <a class="m2mlc-card__whatsapp m2mlc-detalle__whatsapp" href="<?php echo esc_url(M2Base_Catalogo_ML_Render::whatsapp_url($fila)); ?>" target="_blank" rel="noopener">
+                            <svg class="m2mlc-detalle__whatsapp-icono" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.33 4.95L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm0 1.67c2.21 0 4.29.86 5.85 2.42a8.23 8.23 0 0 1 2.43 5.82c0 4.55-3.7 8.25-8.25 8.25a8.3 8.3 0 0 1-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.22 8.22 0 0 1-1.26-4.4c0-4.55 3.7-8.23 8.22-8.23zm-4.54 4.7c-.15 0-.4.06-.6.3-.21.23-.8.78-.8 1.9s.82 2.2.93 2.36c.12.15 1.58 2.5 3.9 3.42 1.93.76 2.32.6 2.74.57.42-.04 1.36-.56 1.55-1.1.2-.54.2-1 .14-1.1-.06-.1-.22-.16-.46-.28-.24-.12-1.4-.7-1.62-.78-.22-.08-.37-.12-.53.12-.16.24-.6.78-.74.94-.14.16-.27.18-.5.06-.24-.12-1-.37-1.92-1.18-.7-.63-1.18-1.4-1.32-1.64-.14-.24-.01-.37.1-.49.1-.1.24-.27.36-.4.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.53-1.3-.74-1.78-.19-.46-.39-.4-.53-.4z"/></svg>
                             <?php esc_html_e('Consultar por WhatsApp', 'm2base-catalogo-ml'); ?>
                         </a>
+
+                        <div class="m2mlc-detalle__confianza">
+                            <span>✓ <?php esc_html_e('Envíos a todo el país', 'm2base-catalogo-ml'); ?></span>
+                            <span>✓ <?php esc_html_e('Compra segura', 'm2base-catalogo-ml'); ?></span>
+                            <span>✓ <?php esc_html_e('Asesoría técnica', 'm2base-catalogo-ml'); ?></span>
+                        </div>
                     </div>
                 </div>
 
