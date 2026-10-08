@@ -16,6 +16,10 @@ get_header();
 				<h1><?php echo esc_html( get_theme_mod( 'm2base_hero_titulo', __( 'El repuesto exacto para tu vehículo, en un solo lugar', 'm2base-repuestos-theme' ) ) ); ?></h1>
 				<p><?php echo esc_html( get_theme_mod( 'm2base_hero_subtitulo', __( 'Busca por marca, modelo y año, y encuentra piezas nuevas, usadas y reacondicionadas con disponibilidad confirmada.', 'm2base-repuestos-theme' ) ) ); ?></p>
 				<a href="#buscador-filtros" class="m2base-hero__cta"><?php esc_html_e( 'Ir al buscador', 'm2base-repuestos-theme' ); ?></a>
+				<div class="m2base-hero__cashea">
+					<span><?php esc_html_e( 'Cómpralo hoy en cuotas sin interés con:', 'm2base-repuestos-theme' ); ?></span>
+					<img src="https://testproyect.m2base.com/wp-content/uploads/2026/10/logo-cashea.png" alt="Cashea" class="m2base-hero__cashea-logo">
+				</div>
 			</div>
 		</div>
 	</section>
@@ -136,16 +140,21 @@ get_header();
 
 	<section class="m2base-pagos">
 		<div class="m2base-contenedor m2base-pagos__inner">
-			<h2 class="m2base-seccion-titulo"><?php esc_html_e( 'Formas de pago (próximamente)', 'm2base-repuestos-theme' ); ?></h2>
+			<h2 class="m2base-seccion-titulo"><?php esc_html_e( 'Métodos de Pago Aceptados', 'm2base-repuestos-theme' ); ?></h2>
 			<div class="m2base-pagos__chips">
 				<?php foreach ( m2base_theme_medios_de_pago() as $medio ) : ?>
-					<div class="m2base-pagos__chip">
+					<div class="m2base-pagos__chip<?php echo ! empty( $medio['destacado'] ) ? ' m2base-pagos__chip--destacado' : ''; ?>">
+						<?php if ( ! empty( $medio['logo'] ) ) : ?>
+							<img class="m2base-pagos__chip-logo" src="<?php echo esc_url( $medio['logo'] ); ?>" alt="<?php echo esc_attr( $medio['nombre'] ); ?>">
+						<?php endif; ?>
 						<strong><?php echo esc_html( $medio['nombre'] ); ?></strong>
-						<span><?php echo esc_html( $medio['estado'] ); ?></span>
+						<?php if ( ! empty( $medio['nota'] ) ) : ?>
+							<span><?php echo esc_html( $medio['nota'] ); ?></span>
+						<?php endif; ?>
 					</div>
 				<?php endforeach; ?>
 			</div>
-			<p class="m2base-pagos__nota"><?php esc_html_e( 'Por ahora, escríbenos por WhatsApp o teléfono para cotizar y coordinar tu compra.', 'm2base-repuestos-theme' ); ?></p>
+			<p class="m2base-pagos__nota"><?php esc_html_e( 'Escríbenos por WhatsApp o teléfono para cotizar y coordinar tu compra.', 'm2base-repuestos-theme' ); ?></p>
 		</div>
 	</section>
 

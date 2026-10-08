@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'M2BASE_THEME_VERSION', '1.7.3' );
+define( 'M2BASE_THEME_VERSION', '1.7.4' );
 
 function m2base_theme_setup() {
 	add_theme_support( 'title-tag' );
@@ -212,7 +212,18 @@ function m2base_theme_numeros_confianza( $productos_disponibles = null ) {
 
 function m2base_theme_medios_de_pago() {
 	return array(
-		array( 'nombre' => __( 'Tarjeta (Stripe)', 'm2base-repuestos-theme' ), 'estado' => __( 'próximamente', 'm2base-repuestos-theme' ) ),
-		array( 'nombre' => __( 'Transferencia bancaria', 'm2base-repuestos-theme' ), 'estado' => __( 'próximamente', 'm2base-repuestos-theme' ) ),
+		array(
+			'nombre' => __( 'Pago Móvil', 'm2base-repuestos-theme' ),
+			'nota'   => __( 'Calculado a Tasa', 'm2base-repuestos-theme' ),
+			'logo'   => 'https://testproyect.m2base.com/wp-content/uploads/2026/10/logo-bcv.png',
+		),
+		array( 'nombre' => __( 'Divisas (Efectivo)', 'm2base-repuestos-theme' ) ),
+		array( 'nombre' => __( 'Zelle', 'm2base-repuestos-theme' ) ),
+		array( 'nombre' => __( 'Binance Pay', 'm2base-repuestos-theme' ) ),
+		array(
+			'nombre'    => __( 'Cashea', 'm2base-repuestos-theme' ),
+			'logo'      => 'https://testproyect.m2base.com/wp-content/uploads/2026/10/logo-cashea.png',
+			'destacado' => true,
+		),
 	);
 }

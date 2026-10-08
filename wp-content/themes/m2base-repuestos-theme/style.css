@@ -323,6 +323,27 @@ a {
 	color: #fff;
 }
 
+.m2base-hero__cashea {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-wrap: wrap;
+	gap: 8px;
+	margin-top: 14px;
+}
+
+.m2base-hero__cashea span {
+	color: #fff;
+	font-size: 0.8rem;
+}
+
+.m2base-hero__cashea-logo {
+	max-width: 100px;
+	height: auto;
+	border-radius: 6px;
+	display: block;
+}
+
 .m2base-seccion-buscador {
 	padding: 40px 0;
 }
@@ -645,6 +666,22 @@ a {
 	color: var(--m2base-acento);
 }
 
+.m2base-catalogo-ml .m2mlc-grid {
+	grid-template-columns: repeat(4, 1fr);
+}
+
+@media (max-width: 992px) {
+	.m2base-catalogo-ml .m2mlc-grid {
+		grid-template-columns: repeat(2, 1fr);
+	}
+}
+
+@media (max-width: 600px) {
+	.m2base-catalogo-ml .m2mlc-grid {
+		grid-template-columns: 1fr;
+	}
+}
+
 .m2base-catalogo-ml__cta {
 	display: flex;
 	justify-content: center;
@@ -657,26 +694,53 @@ a {
 }
 
 .m2base-pagos__chips {
-	display: flex;
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
 	gap: 16px;
-	flex-wrap: wrap;
 }
 
 .m2base-pagos__chip {
-	border: 1px dashed var(--m2base-borde);
+	border: 1px solid var(--m2base-borde);
 	border-radius: var(--m2base-radio);
-	padding: 14px 18px;
+	padding: 22px 16px 18px;
 	display: flex;
 	flex-direction: column;
-	gap: 4px;
-	min-width: 200px;
+	align-items: center;
+	text-align: center;
+	gap: 6px;
+}
+
+.m2base-pagos__chip-logo {
+	max-width: 90px;
+	height: auto;
+	margin-bottom: 4px;
 }
 
 .m2base-pagos__chip span {
 	font-size: 0.8rem;
 	color: var(--m2base-texto-suave);
+}
+
+.m2base-pagos__chip--destacado {
+	position: relative;
+	border: 2px solid #ffe000;
+	background: #fffbe6;
+}
+
+.m2base-pagos__chip--destacado::before {
+	content: 'Financiamiento';
+	position: absolute;
+	top: -11px;
+	left: 50%;
+	transform: translateX(-50%);
+	background: #ffe000;
+	color: #111;
+	font-size: 0.65rem;
+	font-weight: 700;
 	text-transform: uppercase;
 	letter-spacing: 0.03em;
+	padding: 2px 10px;
+	border-radius: 999px;
 }
 
 .m2base-pagos__nota {

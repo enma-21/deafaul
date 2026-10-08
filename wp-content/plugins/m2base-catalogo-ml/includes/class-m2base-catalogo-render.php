@@ -110,6 +110,7 @@ final class M2Base_Catalogo_ML_Render {
                         );
                         ?>
                     </p>
+                    <span class="m2mlc-card__boton"><?php echo esc_html($enlace_interno ? __('Ver repuesto', 'm2base-catalogo-ml') : __('Consultar', 'm2base-catalogo-ml')); ?></span>
                 </div>
             </a>
         </article>

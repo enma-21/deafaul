@@ -220,6 +220,24 @@
 	color: var(--m2mlc-primario);
 }
 
+.m2mlc-card__boton {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-top: 12px;
+	padding: 9px 16px;
+	background: var(--m2mlc-acento);
+	color: #fff;
+	font-weight: 700;
+	font-size: 0.85rem;
+	border-radius: 8px;
+	transition: filter 0.15s ease;
+}
+
+.m2mlc-card:hover .m2mlc-card__boton {
+	filter: brightness(1.08);
+}
+
 .m2mlc-sin-resultados {
 	text-align: center;
 	padding: 40px 20px;
