@@ -2,12 +2,6 @@
 
 ## Active
 
-- [ ] **Eliminar la integración de Google Sheets con error** - for Luis Miguel, due 2026-10-12
-  - Es la del 5-ago-2026 21:42 (pestaña "Form_Custodia_Infantil…"). Es un duplicado viejo de NC-Custodia; no se pierden leads
-  - Formularios para clientes potenciales → Integración → Google Sheets → "…" → Ver → Desconectar
-- [ ] **Corregir la integración del 10-oct que manda datos al píxel equivocado** - for Luis Miguel, due 2026-10-12
-  - Usa el conjunto de datos 1294308592657320 ("CRM- GHL -LM") en vez de 1541254003570949 ("LM - Main Pixel")
-  - Ver qué formulario y pestaña es → eliminarla → "Nueva integración" con LM - Main Pixel → probar con un lead de prueba
 - [ ] **Cambiar la optimización a "Maximizar el número de clientes potenciales"** - for Luis Miguel, due 2026-10-12
   - En los conjuntos de anuncios activos: C123 Dallas, C128 Odessa, C129 San Antonio–Austin
   - Los leads se venden y nadie devuelve el lead_status, así que hoy Meta optimiza a ciegas
@@ -66,3 +60,5 @@
 - [ ] **Usar el feedback de calidad del comprador como señal para Meta** - si llegan datos de válido/inválido
 
 ## Done
+
+- [x] ~~**Google Sheet nueva conectada a los formularios activos** (formularios duplicados → LM - Main Pixel; la integración vieja con error se deja, no recibe nada)~~ (2026-10-13)
