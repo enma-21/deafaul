@@ -18,10 +18,18 @@
   - Sin mencionar deportación ni afirmar situaciones personales del usuario ("¿eres inmigrante?")
   - Estilos: tipo noticia, foto emocional, guía en mano, fondo rojo/negro
 - [ ] **Grabar o editar 3 versiones del V1 cambiando solo los primeros 3 segundos** - for Luis Miguel, due 2026-10-14
-- [ ] **Simplificar el formulario instantáneo y hacer prueba A/B** - for Luis Miguel, due 2026-10-14
-  - Duplicar el formulario actual: imagen de la guía arriba, 3 viñetas, solo nombre + teléfono + correo
-  - Formulario viejo vs. nuevo en la misma campaña; decidir a los 4–5 días por costo por lead
-  - Conectar el formulario nuevo a la Google Sheet ANTES de lanzar
+- [ ] **Seguimiento 24 h: prueba del formulario sin preguntas** - for Luis Miguel, due 2026-10-14
+  - Anuncio `Video_V1_Custodia_Infantil_NoQuestions_Form` en C123 Dallas: ¿está "Activo" y gastando?
+  - ¿Los leads del formulario NoQuestions llegan a la Google Sheet?
+  - Solo revisar, no tocar nada
+- [ ] **Seguimiento 72 h: comparar formularios** - for Luis Miguel, due 2026-10-16
+  - Comparar V1 + formulario viejo vs V1 + NoQuestions: gasto, leads, costo por lead, % que llena (leads ÷ clics)
+  - Si el anuncio nuevo gastó menos de $15, Meta no le está dando presupuesto → moverlo a un conjunto aparte
+  - Preguntar a Luis Miguel si los compradores aceptan los leads sin preguntas
+  - Incluir los resultados en el reporte del viernes
+- [ ] **Decisión del formulario** - for Luis Miguel, due 2026-10-18
+  - Gana NoQuestions si: costo por lead menor Y el comprador acepta los leads → usarlo en todas las campañas
+  - Pierde si: costo igual o mayor, o el comprador rechaza más leads → apagar y volver al formulario viejo
 - [ ] **Lanzar la prueba en C123 Dallas** - for Luis Miguel, due 2026-10-14
   - V1 + versiones nuevas + imágenes IA, con el formulario nuevo
   - Usar "Usar publicación existente" (ID de la publicación del V1) para conservar los likes y comentarios
@@ -60,5 +68,7 @@
 - [ ] **Usar el feedback de calidad del comprador como señal para Meta** - si llegan datos de válido/inválido
 
 ## Done
+
+- [x] ~~**Formulario sin preguntas publicado** (`Form_ENM_Custodia_Infantil_More_Volume_Autofill_On_NoQuestions_Dallas`, anuncio V1 duplicado en C123 Dallas)~~ (2026-10-13)
 
 - [x] ~~**Google Sheet nueva conectada a los formularios activos** (formularios duplicados → LM - Main Pixel; la integración vieja con error se deja, no recibe nada)~~ (2026-10-13)
