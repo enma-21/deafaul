@@ -25,7 +25,7 @@
 - [ ] **Seguimiento 72 h: comparar formularios** - for Luis Miguel, due 2026-10-16
   - Comparar V1 + formulario viejo vs V1 + NoQuestions: gasto, leads, costo por lead, % que llena (leads ÷ clics)
   - Si el anuncio nuevo gastó menos de $15, Meta no le está dando presupuesto → moverlo a un conjunto aparte
-  - Preguntar a Luis Miguel si los compradores aceptan los leads sin preguntas
+  - Luis Miguel dio libertad sobre los formularios (2026-10-13); vigilar si los compradores reportan más leads malos
   - Incluir los resultados en el reporte del viernes
 - [ ] **Decisión del formulario** - for Luis Miguel, due 2026-10-18
   - Gana NoQuestions si: costo por lead menor Y el comprador acepta los leads → usarlo en todas las campañas
