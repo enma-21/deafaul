@@ -52,10 +52,15 @@
   - Anuncios descriptivos: Custodia_Mama_PreguntaJuez_Formulario1 (nunca "V1" a secas)
   - Nunca renombrar ni borrar una pestaña conectada a Meta
 
+- [ ] **Relanzar Tarjeta Médica replicando C108 Dallas** - for Luis Miguel, due 2026-10-15
+  - Ganador histórico: Video_V1_Tarjeta_Medica en C108 Dallas ($4.78/lead, 108 leads, 26% llena el formulario)
+  - Duplicar C108 (o reactivarla si es Dallas); "Usar publicación existente" con el ID del V1; segundo anuncio: Image_V2 ($5.63/lead)
+  - No tocar el formulario (ya convierte 26%); confirmar que la pestaña "Dallas - Tarjeta Médica V2" sigue en verde y enviar lead de prueba
+  - Objetivo "Maximizar el número de clientes potenciales", $50–70/día, no tocar en 3–4 días
+
 ## Waiting On
 
-- [ ] **Luis Miguel: detalles de la campaña de GPS** - since 2026-10-12
-  - Qué es (GPS para niños, guía o producto), para qué cliente, estados y precio de venta del lead
+- [ ] **Luis Miguel: ciudad/estado y leads por día para Tarjeta Médica** - since 2026-10-14
 - [ ] **Luis Miguel: precio de venta del lead** - since 2026-10-12
   - Para calcular el costo por lead máximo rentable (hoy pierde $1–2 por lead)
 - [ ] **Luis Miguel / compradores: aviso de leads válidos o inválidos** - since 2026-10-12
@@ -63,7 +68,6 @@
 
 ## Someday
 
-- [ ] **Preparar la campaña de GPS** - for Luis Miguel, después de recibir los detalles
 - [ ] **Auditar el portafolio de reclutamiento** - pendiente la descarga de Meta
 - [ ] **Usar el feedback de calidad del comprador como señal para Meta** - si llegan datos de válido/inválido
 
